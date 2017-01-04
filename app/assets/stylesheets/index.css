@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color: #cccccc;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  padding: 8px;
+}
+
+h2 {
+  padding: 6px;
+}
+
+#content {
+  padding: 16px 12px;
+}
+
+#serverList {
+  width: 100%;
+  color: #fffeff;
+  border-collapse: collapse;
+}
+  #serverList th {
+    color: #5e5c5e;
+    text-align: left;
+
+    background-color: #211f21;
+  }
+  #serverList tr:nth-child(odd) {
+    background-color: #211f21;
+  }
+  #serverList th, #serverList td {
+    padding: 6px;
+  }
+  #serverList #action {
+    width: 0px;
+    text-align: right;
+  }
+  #serverList #nameServer {
+    width: 55%;
+  }
+  #serverList #ipServer, #serverList #portServer {
+    width: 10%;
+  }
+
+/* Elevation - Material Design */
+.z-1 { box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); }
+.z-2 { box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2); }
+.z-3 { box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19); }
+.z-4 { box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3), 0 14px 12px 0 rgba(0, 0, 0, 0.17); }
+.z-5 { box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15); }

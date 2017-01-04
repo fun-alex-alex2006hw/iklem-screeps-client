@@ -5,17 +5,23 @@ let mainWindow;
 function createMainWindow() {
   const win = new BrowserWindow({
     title: "Unofficial Screeps client",
+    show: false,
+    // TODO: change dynamicaly the icon
+    icon: "app/assets/images/logo/screeps.png",
+
     width: 800,
     height: 600,
     backgroundColor: "#1a181a",
-    show: false
+
+    webPreferences: {
+      devTools: true
+    }
   });
 
   win.loadURL(`file://${__dirname}/views/index.html`)
 
   win.on('ready-to-show', function() {
       win.show();
-      win.focus();
   });
 
   return win;
