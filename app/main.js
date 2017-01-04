@@ -1,4 +1,5 @@
-const {app, BrowserWindow} = require("electron");
+const {app, BrowserWindow} = require("electron"),
+  serverM = new ServerManager();
 
 let mainWindow;
 
@@ -30,3 +31,7 @@ function createMainWindow() {
 app.on("ready", () => {
   mainWindow = createMainWindow();
 })
+
+exports.selectedServer = serverID => {
+  return `Clicked on server n°${serverID}`;
+}

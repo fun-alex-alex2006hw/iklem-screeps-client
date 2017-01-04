@@ -41,18 +41,15 @@ h2 {
   #serverList tr:nth-child(odd) {
     background-color: #211f21;
   }
+  #serverList tr {
+    cursor: pointer;
+  }
   #serverList th, #serverList td {
     padding: 6px;
   }
-  #serverList #action {
-    width: 0px;
-    text-align: right;
-  }
   #serverList #nameServer {
-    width: 55%;
   }
   #serverList #ipServer, #serverList #portServer {
-    width: 10%;
   }
 
 /* Elevation - Material Design */
