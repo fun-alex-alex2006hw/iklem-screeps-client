@@ -14,8 +14,9 @@ function createServerList() {
 
       tableRow.attr("id", cpt);
       tableRow.append([name, ip, port]);
-      tableRow.click((e) => {
-        console.log(main.selectedServer(e.currentTarget.id));
+      tableRow.click(e => {
+        let serverID = parseInt(e.currentTarget.id);
+        console.log(main.selectedServer(serverID));
       });
 
       jq("#serverList").append(tableRow);
@@ -27,4 +28,10 @@ function createServerList() {
 function createFavoriteServerList() {
 }
 
-createServerList();
+jq(document).ready(() => {
+  createServerList();
+
+  jq("#addServer").click(e => {
+    main.openWindow("add");
+  })
+});

@@ -1,11 +1,19 @@
-class ServerManager {
-  constructor() {
-    self.selected = -1;
-  }
+function serverManager() {
+  const self = {
+    selected: -1
+  };
 
-  changeSelectedServer(newID) {
-    if (typeof newID === "number") {
-      self.selected = newID;
+  self.changeSelectedServer = newServerID => {
+    if (typeof newServerID === "number" && newServerID !== self.selected) {
+      self.selected = newServerID;
     }
-  }
+  };
+
+  self.addServer = (name, ip, port, password) => {
+    
+  };
+
+  return self;
 }
+
+module.exports = serverManager;

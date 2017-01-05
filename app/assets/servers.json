@@ -1,14 +1,3 @@
 [
-  {
-    "name": "iKlem private server",
-    "ip": "cdelalande.fr",
-    "port": 21025,
-    "password": ""
-  },
-  {
-    "name": "Some private server",
-    "ip": "the.ip.willbe.here",
-    "port": 21025,
-    "password": ""
-  }
+  
 ]

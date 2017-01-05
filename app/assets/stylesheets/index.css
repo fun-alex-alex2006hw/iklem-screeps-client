@@ -20,6 +20,7 @@ header {
 }
 
 h2 {
+  width: 50%;
   padding: 6px;
 }
 
@@ -35,6 +36,7 @@ h2 {
   #serverList th {
     color: #5e5c5e;
     text-align: left;
+    cursor: auto;
 
     background-color: #211f21;
   }

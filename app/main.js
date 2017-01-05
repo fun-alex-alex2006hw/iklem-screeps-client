@@ -1,7 +1,10 @@
 const {app, BrowserWindow} = require("electron"),
-  serverM = new ServerManager();
+  WindowManager = require("./scripts/windowManager.js"),
+  ServerManager = require("./scripts/serverManager.js");
 
-let mainWindow;
+let mainWindow,
+  windowManager = WindowManager();
+  server = ServerManager();
 
 function createMainWindow() {
   const win = new BrowserWindow({
@@ -21,7 +24,7 @@ function createMainWindow() {
 
   win.loadURL(`file://${__dirname}/views/index.html`)
 
-  win.on('ready-to-show', function() {
+  win.on('ready-to-show', () => {
       win.show();
   });
 
@@ -33,5 +36,10 @@ app.on("ready", () => {
 })
 
 exports.selectedServer = serverID => {
+  server.changeSelectedServer(serverID);
   return `Clicked on server n°${serverID}`;
-}
+};
+
+exports.openWindow = (windowName) => {
+  windowManager.changeTo(windowName, mainWindow);
+};
