@@ -16,6 +16,7 @@
     "electron": "^1.4.13"
   },
   "dependencies": {
+    "angular": "^1.6.1",
     "jquery": "^3.1.1"
   }
 }

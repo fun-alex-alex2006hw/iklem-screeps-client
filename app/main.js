@@ -1,9 +1,7 @@
 const {app, BrowserWindow} = require("electron"),
-  WindowManager = require("./scripts/windowManager.js"),
-  ServerManager = require("./scripts/serverManager.js");
+  ServerManager = require("./libs/serverManager.js");
 
 let mainWindow,
-  windowManager = WindowManager();
   server = ServerManager();
 
 function createMainWindow() {
@@ -11,7 +9,7 @@ function createMainWindow() {
     title: "Unofficial Screeps client",
     show: false,
     // TODO: change dynamicaly the icon
-    icon: "app/assets/images/logo/screeps.png",
+    icon: "app/images/logo/screeps.png",
 
     width: 800,
     height: 600,
@@ -41,5 +39,5 @@ exports.selectedServer = serverID => {
 };
 
 exports.openWindow = (windowName) => {
-  windowManager.changeTo(windowName, mainWindow);
+  // CHANGE WINDOW
 };

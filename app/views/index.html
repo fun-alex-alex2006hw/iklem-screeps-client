@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="screepsClient">
   <head>
     <meta charset="utf-8">
     <title>Unofficial Screeps client</title>
-    <link rel="stylesheet" href="../assets/stylesheets/index.css">
+    <link rel="stylesheet" href="../styles/index.css">
   </head>
-  <body>
+  <body ng-controller="serverList">
     <!-- HEADER BAR -->
     <header id="header" class="z-2">
       <h2>Unofficial Screeps client</h2>
@@ -26,5 +26,6 @@
       </table>
     </div>
   </body>
-  <script src="../controllers/index.js" charset="utf-8"></script>
+  <script src="../../node_modules/angular/angular.js" charset="utf-8"></script>
+  <script src="../scripts/index.js" charset="utf-8"></script>
 </html>

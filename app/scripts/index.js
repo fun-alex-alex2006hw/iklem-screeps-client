@@ -1,4 +1,30 @@
 const jq = require("jquery"),
+  fs = require("fs");
+
+(function() {
+  angular
+    .module("screepsClient", [])
+    .controller("serverList", ["$scope", serverList]);
+}());
+
+function serverList($scope) {
+  // Load server list
+  // If file doesn't exist, notify the user to add servers to the list
+
+  $scope.checkServerFile = (cb) => {
+    fs.exists("../servers.json", exists => {
+      if(exists) {
+        cb();
+      } else {
+        // NOTIFY USER TO ADD SERVERS
+        console.log("err");
+      }
+    });
+  }
+
+}
+
+/*const jq = require("jquery"),
   main = require("electron").remote.require("./main");
 
 function createServerList() {
@@ -25,13 +51,7 @@ function createServerList() {
   }
 }
 
-function createFavoriteServerList() {
-}
-
 jq(document).ready(() => {
   createServerList();
-
-  jq("#addServer").click(e => {
-    main.openWindow("add");
-  })
 });
+*/
