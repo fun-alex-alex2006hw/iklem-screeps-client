@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="screepsClient">
+  <head>
+    <meta charset="utf-8">
+    <title>Unofficial Screeps client</title>
+    <link rel="stylesheet" href="styles/index.css">
+  </head>
+  <body ng-controller="serverList">
+    <header id="header" class="z-2"><h2>Unofficial Screeps client</h2></header>
+    <div ng-view id="content"></div>
+  </body>
+
+  <!-- ANGULAR CORE + LIBS -->
+  <script src="../node_modules/angular/angular.js" charset="utf-8"></script>
+  <script src="libs/angular/post-fix.js" charset="utf-8"></script>
+
+  <!-- ANGULAR CONTROLLERS -->
+  <script src="scripts/addServer.js" charset="utf-8"></script>
+
+  <!-- MAIN -->
+  <script src="scripts/index.js" charset="utf-8"></script>
+</html>

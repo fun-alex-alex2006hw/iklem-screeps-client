@@ -3,11 +3,13 @@ const jq = require("jquery"),
 
 (function() {
   angular
-    .module("screepsClient", [])
-    .controller("serverList", ["$scope", serverList]);
+    .module("screepsClient", ["httpPostFix", require("angular-route")])
+    .controller("serverList", ["$scope", "$location", serverList])
+    .controller("addServer", ["$scope", "$http", "$location", addServer])
+    .config(["$routeProvider", routing]);
 }());
 
-function serverList($scope) {
+function serverList($scope, $location) {
   // Load server list
   // If file doesn't exist, notify the user to add servers to the list
 
@@ -17,11 +19,33 @@ function serverList($scope) {
         cb();
       } else {
         // NOTIFY USER TO ADD SERVERS
-        console.log("err");
+        console.log("Please add a server");
       }
     });
   }
 
+  $scope.home = () => {
+    $location.path("/");
+  }
+
+  $scope.addServer = () => {
+    $location.path("/add");
+  }
+
+  // $scope.checkServerFile();
+}
+
+function routing($routeProvider) {
+  $routeProvider
+    .when("/", {
+      templateUrl: "views/serverList.html",
+      controller: "serverList"
+    })
+    .when("/add", {
+      templateUrl: "views/add.html",
+      controller: "addServer"
+    })
+    .otherwise("/");
 }
 
 /*const jq = require("jquery"),

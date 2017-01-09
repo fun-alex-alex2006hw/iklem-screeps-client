@@ -20,7 +20,7 @@ function createMainWindow() {
     }
   });
 
-  win.loadURL(`file://${__dirname}/views/index.html`)
+  win.loadURL(`file://${__dirname}/index.html`)
 
   win.on('ready-to-show', () => {
       win.show();
