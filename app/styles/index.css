@@ -40,7 +40,7 @@ h2 {
 
     background-color: #211f21;
   }
-  #serverList tr:nth-child(odd) {
+  #serverList tr:nth-child(even) {
     background-color: #211f21;
   }
   #serverList tr {

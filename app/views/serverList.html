@@ -8,4 +8,9 @@
     <th id="ipServer">IP</th>
     <th id="portServer">Port</th>
   </thead>
+  <tbody>
+    <tr ng-repeat="server in serverList | orderBy" ng-click="openServer($index)">
+      <td>{{server.name}}</td><td>{{server.ip}}</td><td>{{server.port}}</td>
+    </div>
+  </tbody>
 </table>
