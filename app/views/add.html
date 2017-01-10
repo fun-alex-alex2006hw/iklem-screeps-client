@@ -1,15 +1,35 @@
-<nav>
-  <button id="back" ng-click="back()">Back</button>
-</nav>
-<h2>Adding server</h2>
-<form class="addServer">
-  <label for="name">Name</label>
-  <input type="text" name="name" value="" ng-model="server.name" />
-  <label for="ip">IP address</label>
-  <input type="text" name="ip" value="" ng-model="server.ip" />
-  <label for="port">Port</label>
-  <input type="number" name="port" value="" ng-model="server.port"/>
-  <label for="hasOtherAuthSys">Has other authentification systems ?</label>
-  <input type="checkbox" name="hasOtherAuthSys" value="" ng-model="server.hasOtherAuthSys">
-  <button ng-click="add()">Add server</button>
-</form>
+<div ng-controller="addServer">
+  <div>
+    <a id="back" class="waves-effect waves-light btn" ng-click="back()">Back</a>
+  </div>
+  <h4>Adding server</h4>
+  <form class="col s12">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="name" type="text" ng-model="server.name">
+        <label for="name">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="ip" ng-model="server.ip">
+        <label for="ip">IP Address</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="port" type="number" value="21025" ng-model="server.port">
+        <label for="port">Port</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="checkbox" id="hasOtherAuthSys" name="hasOtherAuthSys" ng-model="server.hasOtherAuthSys">
+        <label for="hasOtherAuthSys">Has other authentification systems ?</label>
+      </div>
+    </div>
+    <div class="row">
+      <a class="waves-effect waves-light btn" ng-click="add()">Add server</a>
+    </div>
+  </form>
+</div>

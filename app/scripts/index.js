@@ -1,33 +1,35 @@
-const jq = require("jquery"),
-  fs = require("fs");
+const fs = require("fs");
 
 (function() {
   angular
-    .module("screepsClient", [require("angular-route")])
+    .module("screepsClient", [require("angular-animate"), require("angular-route")])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
     .controller("addServer", ["$scope", "$location", "serverListService", addServer])
     .service("serverListService", [serverListService])
+    .animation('.container', ["$routeParams", "$location", fadeScale])
     .config(["$routeProvider", routing]);
 }());
 
-function serverList($scope, $location, serverListS) {
+function serverList($scope, $location, serverListService) {
   // Load server list
   // If file doesn't exist, notify the user to add servers to the list
+  //$scope.server = {};
+  $scope.server = serverListService.getServerFromList(0);
+
   $scope.loadServerList = () => {
     fs.readFile("app/servers.json", (err, data) => {
       if (!err && data.length > 0) {
-        $scope.$apply(() => {
-          $scope.serverList = [];
-          servers = JSON.parse(data.toString())
-          serverListS.clean();
-          for(let server of servers) {
-            serverListS.addServer(server);
-          }
-          $scope.serverList = serverListS.getServerList();
-        });
+        $scope.serverList = [];
+        servers = JSON.parse(data.toString())
+        serverListService.clean();
+        for(let server of servers) {
+          serverListService.addServer(server);
+        }
+        $scope.serverList = serverListService.getServerList();
+        $scope.$apply();
         console.log($scope.serverList)
       } else if (err) {
-        alert("Please add a server");
+        Materialize.toast(`Please add a server`, 5000);
       }
     });
   }
@@ -41,21 +43,22 @@ function serverList($scope, $location, serverListS) {
   }
 
   $scope.openServer = (serverID) => {
-    alert(JSON.stringify($scope.serverList[serverID]));
+    // TODO: add connexion to server.
+    $scope.server = $scope.serverList[serverID];
+    $('#modalServer').modal('open');
   }
 
   $scope.loadServerList();
+  $('.modal').modal();
 }
 
 function routing($routeProvider) {
   $routeProvider
     .when("/", {
-      templateUrl: "views/serverList.html",
-      controller: "serverList"
+      templateUrl: "views/serverList.html"
     })
     .when("/add", {
-      templateUrl: "views/add.html",
-      controller: "addServer"
+      templateUrl: "views/add.html"
     })
     .otherwise("/");
 }
@@ -86,4 +89,19 @@ function serverListService() {
 
     clean: () => serverList = []
   };
+}
+
+function fadeScale($routeParams, $location) {
+  return {
+    // WHEN ALL APPEARS !!!
+    enter: function(element, done) {
+      // TODO: Add animations
+      done();
+    },
+    // WHEN ALL DISAPPEARS !!!
+    leave: function(element, done) {
+      // TODO: Add animations
+      done();
+    }
+  }
 }

@@ -12,16 +12,20 @@ function addServer($scope, $location, serverListService) {
     let server = $scope.server;
     if (server.ip !== "") {
       console.log(`Adding ${server.ip}`);
-      alert(`Adding ${server.ip}`);
       serverListService.addServer(server);
-      fs.writeFileSync(
-        "app/servers.json",
-        `${JSON.stringify(serverListService.getServerList(true))}`
+      fs.writeFile("app/servers.json",
+        `${JSON.stringify(serverListService.getServerList(true))}`,
+        function(err) {
+          if (!err) {
+            Materialize.toast(`Server added!`, 4000);
+            $scope.$apply($location.path("/"));
+          }
+        }
       );
-      $scope.back();
     } else {
-      alert("You need to provide the IP address");
-      console.log("Can't add a server with no IP");
+      Materialize.toast("You need to provide the IP address", 5000);
     }
   }
+
+  Materialize.updateTextFields();
 }

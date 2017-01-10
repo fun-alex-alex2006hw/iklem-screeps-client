@@ -17,7 +17,10 @@
   },
   "dependencies": {
     "angular": "^1.6.1",
+    "angular-animate": "^1.6.1",
     "angular-route": "^1.6.1",
-    "jquery": "^3.1.1"
+    "gsap": "^1.19.0",
+    "jquery": "^3.1.1",
+    "materialize-css": "^0.97.8"
   }
 }
