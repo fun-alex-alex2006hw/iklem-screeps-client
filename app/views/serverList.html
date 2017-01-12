@@ -1,8 +1,5 @@
 <div ng-controller="serverList">
-  <div>
-    <a id="addServer" class="waves-effect waves-light btn" ng-click="addServer()">Add server</a>
-  </div>
-  <h3>Server list</h3>
+  <h3>Your server list</h3>
   <table id="serverList">
     <thead>
       <th id="nameServer">Name</th>
@@ -11,17 +8,28 @@
     </thead>
     <tbody>
       <tr ng-repeat="server in serverList | orderBy" ng-click="openServer($index)">
-        <td>{{server.name}}</td><td>{{server.ip}}</td><td>{{server.port}}</td>
+        <td>{{server.name}}</td>
+        <td>{{server.ip}}</td>
+        <td>{{server.port}}</td>
       </div>
     </tbody>
   </table>
 
   <div id="modalServer" class="modal bottom-sheet">
-    <div class="modal-content" server-list>
-      <h2>{{server.name}}</h2>
+    <div class="modal-content">
+      <h3>{{server.name}}</h3>
+      <p>{{server.ip}}:{{server.port}}</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect waves-green btn-flat">Edit</a>
+      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect waves-green btn-flat">Connect</a>
     </div>
   </div>
+
+  <div class="fixed-action-btn">
+    <a ng-click="addServer()" class="btn-floating btn-large red">
+      <i class="material-icons">add</i>
+    </a>
+  </div>
+
 </div>

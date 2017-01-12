@@ -1,24 +1,25 @@
 <div ng-controller="addServer">
   <div>
-    <a id="back" class="waves-effect waves-light btn" ng-click="back()">Back</a>
+
   </div>
-  <h4>Adding server</h4>
+  <h4 ng-hide="isEditing">Adding server</h4>
+  <h4 ng-show="isEditing">Edit server "{{server.name}}"</h4>
   <form class="col s12">
     <div class="row">
       <div class="input-field col s12">
-        <input id="name" type="text" ng-model="server.name">
+        <input id="name" type="text" id="serverName" value="{{server.name}}" ng-model="server.name">
         <label for="name">Name</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input type="text" name="ip" ng-model="server.ip">
+        <input name="ip" type="text" id="serverIP" value="{{server.ip}}" ng-model="server.ip">
         <label for="ip">IP Address</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input id="port" type="number" value="21025" ng-model="server.port">
+        <input id="serverPort" type="number" value="21025" ng-model="server.port">
         <label for="port">Port</label>
       </div>
     </div>
@@ -29,7 +30,9 @@
       </div>
     </div>
     <div class="row">
-      <a class="waves-effect waves-light btn" ng-click="add()">Add server</a>
+      <a ng-hide="isEditing" class="waves-effect waves-light btn" ng-click="add()">Add</a>
+      <a ng-show="isEditing" class="waves-effect waves-light btn" ng-click="edit()">Edit</a>
+      <a id="back" class="waves-effect waves-light btn" ng-click="back()">Cancel</a>
     </div>
   </form>
 </div>

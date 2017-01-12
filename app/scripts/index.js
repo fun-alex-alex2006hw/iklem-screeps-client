@@ -4,7 +4,7 @@ const fs = require("fs");
   angular
     .module("screepsClient", [require("angular-animate"), require("angular-route")])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
-    .controller("addServer", ["$scope", "$location", "serverListService", addServer])
+    .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
     .service("serverListService", [serverListService])
     .animation('.container', ["$routeParams", "$location", fadeScale])
     .config(["$routeProvider", routing]);
@@ -38,18 +38,29 @@ function serverList($scope, $location, serverListService) {
     $location.path("/");
   }
 
-  $scope.addServer = () => {
-    $location.path("/add");
+  $scope.addServer = (editMode = false, serverID = -1) => {
+    if (editMode) {
+      $location.path(`/add/edit/${serverID}`);
+    } else {
+      $location.path("/add");
+    }
   }
 
   $scope.openServer = (serverID) => {
-    // TODO: add connexion to server.
+    $scope.serverID = serverID;
     $scope.server = $scope.serverList[serverID];
     $('#modalServer').modal('open');
   }
 
+  $scope.connectToServer = (serverID) => {
+
+  }
+
   $scope.loadServerList();
-  $('.modal').modal();
+  $('.modal').modal({
+    starting_top: '4%',
+    ending_top: '50%'
+  });
 }
 
 function routing($routeProvider) {
@@ -60,6 +71,9 @@ function routing($routeProvider) {
     .when("/add", {
       templateUrl: "views/add.html"
     })
+    .when("/add/:action/:serverID", {
+      templateUrl: "views/add.html"
+    })
     .otherwise("/");
 }
 
@@ -67,7 +81,9 @@ function serverListService() {
   let serverList = [];
 
   return {
-    addServer: (server) => serverList.push(server),
+    addServer: server => serverList.push(server),
+
+    updateServer: (serverID, newServer) => serverList[serverID] = newServer,
 
     getServerList: (noHashKey = false) => {
       if (noHashKey) {
@@ -85,7 +101,7 @@ function serverListService() {
       return serverList;
     },
 
-    getServerFromList: (serverID) => serverList[serverID],
+    getServerFromList: serverID => serverList[serverID],
 
     clean: () => serverList = []
   };
@@ -95,12 +111,12 @@ function fadeScale($routeParams, $location) {
   return {
     // WHEN ALL APPEARS !!!
     enter: function(element, done) {
-      // TODO: Add animations
-      done();
+      enterAnim = new TimelineMax({delay:0, onComplete:done});
+      enterAnim.add(TweenMax.from(element, 0.4, {opacity:0, ease:Expo.easeOut}));
     },
     // WHEN ALL DISAPPEARS !!!
     leave: function(element, done) {
-      // TODO: Add animations
+      // Animation isn't needed here. Maybe in the future
       done();
     }
   }

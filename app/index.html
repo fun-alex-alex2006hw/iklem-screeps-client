@@ -4,15 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <title>Unofficial Screeps client</title>
+    <title>A Screeps client, unofficial for sure</title>
 
-    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet"
+      href="../node_modules/materialize-css/dist/css/materialize.min.css"
+      media="screen,projection"/>
     <link rel="stylesheet" href="styles/index.css">
 
     <!-- OTHER LIBS -->
     <script src="../node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
     <script src="../node_modules/hammerjs/hammer.js" charset="utf-8"></script>
     <script src="../node_modules/materialize-css/dist/js/materialize.min.js" charset="utf-8"></script>
+
     <!-- GSPA PLUGIN -->
     <script type="text/javascript" src="../node_modules/gsap/src/minified/TweenMax.min.js"></script>
     <script type="text/javascript" src="../node_modules/gsap/src/minified/TweenLite.min.js"></script>
@@ -20,8 +24,15 @@
     <script type="text/javascript" src="../node_modules/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
   </head>
   <body>
-    <header id="header"><h2>Unofficial Screeps client</h2></header>
+    <header id="header" class="z-depth-2"><h3>A Screeps client</h3></header>
     <div ng-view class="container"></div>
+
+    <footer>
+      <div>
+        © 2017 Clément Delalande
+      </div>
+    </footer>
+
   </body>
 
   <!-- ANGULAR CORE + LIBS -->

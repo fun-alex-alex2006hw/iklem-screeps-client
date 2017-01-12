@@ -16,7 +16,11 @@ html {
 }
 
 header {
-  padding: 8px;
+  padding: 6px;
+}
+
+.container {
+  width: 75%;
 }
 
 .input-field input {
@@ -27,21 +31,29 @@ header {
   margin: 8px;
   background-color: #444;
 }
+  .btn:hover {
+    background-color: #444;
+  }
 
-.btn:hover {
-  background-color: #444;
+.fixed-action-btn {
+  bottom: 65px;
 }
+
+#modalServer {
+  /* height: 350px; */
+}
+  .modal-content {
+    color: rgb(60, 60, 60);
+  }
 
 #serverList {
   width: 100%;
   color: #fffeff;
-  border-collapse: collapse;
 }
   #serverList th {
     color: #5e5c5e;
     text-align: left;
     cursor: auto;
-
     background-color: #211f21;
   }
   #serverList tr:nth-child(even) {
@@ -53,7 +65,14 @@ header {
   #serverList th, #serverList td {
     padding: 6px;
   }
-  #serverList #nameServer {
-  }
-  #serverList #ipServer, #serverList #portServer {
+
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #252425;
+  z-index: 1;
+}
+  footer div {
+    margin: 12px;
   }
