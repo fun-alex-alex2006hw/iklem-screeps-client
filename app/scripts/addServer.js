@@ -1,5 +1,5 @@
 function addServer($scope, $location, $routeParams, serverListService) {
-  $scope.back = () => $location.path("/");
+  $scope.back = () => $scope.home();
 
   $scope.add = () => {
     let server = $scope.server;

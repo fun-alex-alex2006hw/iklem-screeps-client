@@ -76,3 +76,6 @@ footer {
   footer div {
     margin: 12px;
   }
+  footer a {
+    cursor: pointer;
+  }

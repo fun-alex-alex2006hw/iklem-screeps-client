@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require("electron"),
+const {app, BrowserWindow, shell} = require("electron"),
   ServerManager = require("./libs/serverManager.js");
 
 let mainWindow,
@@ -33,11 +33,10 @@ app.on("ready", () => {
   mainWindow = createMainWindow();
 })
 
-exports.selectedServer = serverID => {
-  server.changeSelectedServer(serverID);
-  return `Clicked on server n°${serverID}`;
-};
-
 exports.openWindow = (windowName) => {
   // CHANGE WINDOW
 };
+
+exports.openExternal = (link) => {
+  shell.openExternal(link)
+}

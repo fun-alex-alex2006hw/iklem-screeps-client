@@ -1,8 +1,10 @@
-const fs = require("fs");
+const fs = require("fs"),
+  remote = require("electron").remote.require('./main');
 
 (function() {
   angular
     .module("screepsClient", [require("angular-animate"), require("angular-route")])
+    .controller("mainController", ["$scope", "$location", "serverListService", mainController])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
     .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
     .service("serverListService", [serverListService])
@@ -10,11 +12,7 @@ const fs = require("fs");
     .config(["$routeProvider", routing]);
 }());
 
-function serverList($scope, $location, serverListService) {
-  // Load server list
-  // If file doesn't exist, notify the user to add servers to the list
-  $scope.server = serverListService.getServerFromList(0);
-
+function mainController($scope, $location, serverListService) {
   $scope.loadServerList = () => {
     fs.readFile("app/servers.json", (err, data) => {
       if (!err && data.length > 0) {
@@ -41,44 +39,13 @@ function serverList($scope, $location, serverListService) {
         $scope.$apply();
       }
     });
-  }
+  };
 
   $scope.home = () => {
     $location.path("/");
   };
 
-  $scope.addServer = (editMode = false, serverID = -1) => {
-    if (editMode) {
-      $location.path(`/add/edit/${serverID}`);
-    } else {
-      $location.path("/add");
-    }
-  };
-
-  $scope.openServer = (serverID) => {
-    $scope.serverID = serverID;
-    $scope.server = $scope.serverList[serverID];
-    $('#modalServer').modal('open');
-  };
-
-  $scope.removeServer = (serverID, modalValid = false) => {
-    if(!modalValid) {
-      $('#modalRemoveServer').modal('open');
-    } else {
-      serverListService.removeServer(serverID);
-      $scope.saveServerList();
-    }
-  };
-
-  $scope.connectToServer = (serverID) => {
-
-  };
-
-  $scope.loadServerList();
-  $('.modal').modal({
-    starting_top: '4%',
-    ending_top: '25%'
-  });
+  $scope.openURL = (link) => { remote.openExternal(link); }
 }
 
 function routing($routeProvider) {

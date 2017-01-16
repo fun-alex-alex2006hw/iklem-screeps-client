@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../node_modules/gsap/src/minified/TimelineMax.min.js"></script>
     <script type="text/javascript" src="../node_modules/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
   </head>
-  <body>
+  <body ng-controller="mainController">
     <header id="header" class="z-depth-2"><h3>A Screeps client</h3></header>
     <div ng-view class="container"></div>
 
     <footer>
       <div>
-        © 2017 iKlem - <a href="https://github.com/iKlem">github</a>
+        © 2017 iKlem - <a ng-click="openURL('https://github.com/iKlem')">github</a>
       </div>
     </footer>
 
@@ -39,8 +39,9 @@
   <script src="../node_modules/angular/angular.js" charset="utf-8"></script>
 
   <!-- ANGULAR CONTROLLERS -->
+  <script src="scripts/serverList.js" charset="utf-8"></script>
   <script src="scripts/addServer.js" charset="utf-8"></script>
 
   <!-- MAIN -->
-  <script src="scripts/index.js" charset="utf-8"></script>
+  <script src="scripts/main.js" charset="utf-8"></script>
 </html>
