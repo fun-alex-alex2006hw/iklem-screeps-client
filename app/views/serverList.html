@@ -21,8 +21,20 @@
       <p>{{server.ip}}:{{server.port}}</p>
     </div>
     <div class="modal-footer">
+      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect waves-green btn-flat">Remove</a>
       <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect waves-green btn-flat">Edit</a>
       <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect waves-green btn-flat">Connect</a>
+    </div>
+  </div>
+
+  <div class="modal" id="modalRemoveServer">
+    <div class="modal-content">
+      <h3>Remove server ?</h3>
+      <p>Do you really want to remove this server ?</p>
+    </div>
+    <div class="modal-footer">
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+      <a ng-click="removeServer(serverID, true)" class=" modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
     </div>
   </div>
 

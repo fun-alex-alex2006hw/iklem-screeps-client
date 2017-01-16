@@ -13,7 +13,6 @@ const fs = require("fs");
 function serverList($scope, $location, serverListService) {
   // Load server list
   // If file doesn't exist, notify the user to add servers to the list
-  //$scope.server = {};
   $scope.server = serverListService.getServerFromList(0);
 
   $scope.loadServerList = () => {
@@ -27,16 +26,26 @@ function serverList($scope, $location, serverListService) {
         }
         $scope.serverList = serverListService.getServerList();
         $scope.$apply();
-        console.log($scope.serverList)
       } else if (err) {
         Materialize.toast(`Please add a server`, 5000);
+      }
+    });
+  };
+
+  $scope.saveServerList = () => {
+    fs.writeFile("app/servers.json",
+    `${JSON.stringify(serverListService.getServerList(true))}`,
+    function(err) {
+      if (!err) {
+        Materialize.toast(`Server list updated!`, 4000);
+        $scope.$apply();
       }
     });
   }
 
   $scope.home = () => {
     $location.path("/");
-  }
+  };
 
   $scope.addServer = (editMode = false, serverID = -1) => {
     if (editMode) {
@@ -44,22 +53,31 @@ function serverList($scope, $location, serverListService) {
     } else {
       $location.path("/add");
     }
-  }
+  };
 
   $scope.openServer = (serverID) => {
     $scope.serverID = serverID;
     $scope.server = $scope.serverList[serverID];
     $('#modalServer').modal('open');
-  }
+  };
+
+  $scope.removeServer = (serverID, modalValid = false) => {
+    if(!modalValid) {
+      $('#modalRemoveServer').modal('open');
+    } else {
+      serverListService.removeServer(serverID);
+      $scope.saveServerList();
+    }
+  };
 
   $scope.connectToServer = (serverID) => {
 
-  }
+  };
 
   $scope.loadServerList();
   $('.modal').modal({
     starting_top: '4%',
-    ending_top: '50%'
+    ending_top: '25%'
   });
 }
 
@@ -85,16 +103,20 @@ function serverListService() {
 
     updateServer: (serverID, newServer) => serverList[serverID] = newServer,
 
+    removeServer: (serverID) => delete serverList[serverID],
+
     getServerList: (noHashKey = false) => {
       if (noHashKey) {
         let newList = [];
         for(let server of serverList) {
-          newList.push({
-            name: server.name,
-            ip: server.ip,
-            port: server.port,
-            hasOtherAuthSys: server.hasOtherAuthSys
-          });
+          if (server) {
+            newList.push({
+              name: server.name,
+              ip: server.ip,
+              port: server.port,
+              hasOtherAuthSys: server.hasOtherAuthSys
+            });
+          }
         }
         serverList = newList;
       }
@@ -112,7 +134,7 @@ function fadeScale($routeParams, $location) {
     // WHEN ALL APPEARS !!!
     enter: function(element, done) {
       enterAnim = new TimelineMax({delay:0, onComplete:done});
-      enterAnim.add(TweenMax.from(element, 0.4, {opacity:0, ease:Expo.easeOut}));
+      enterAnim.add(TweenMax.from(element, 0.8, {opacity:0, ease:Expo.easeOut}));
     },
     // WHEN ALL DISAPPEARS !!!
     leave: function(element, done) {
