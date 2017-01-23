@@ -5,7 +5,6 @@ function addServer($scope, $location, $routeParams, serverListService) {
     let server = $scope.server;
     if(!$scope.isEditing) {
       if (server.ip !== "") {
-        console.log(`Adding ${server.ip}`);
         serverListService.addServer(server);
         fs.writeFile("app/servers.json",
         `${JSON.stringify(serverListService.getServerList(true))}`,
