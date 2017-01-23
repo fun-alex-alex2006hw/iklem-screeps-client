@@ -13,13 +13,13 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^1.4.13"
+    "electron": "^1.4.15"
   },
   "dependencies": {
     "angular": "^1.6.1",
     "angular-animate": "^1.6.1",
     "angular-route": "^1.6.1",
-    "gsap": "^1.19.0",
+    "gsap": "^1.19.1",
     "jquery": "^3.1.1",
     "materialize-css": "^0.97.8"
   }
