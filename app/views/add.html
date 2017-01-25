@@ -13,26 +13,38 @@
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input name="ip" type="text" id="serverIP" value="{{server.ip}}" ng-model="server.ip">
+        <input name="ip" type="text" id="serverIP" value="{{server.ip}}" ng-model="server.ip" ng-change="checkAuthMod()">
         <label for="ip">IP Address</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input id="serverPort" type="number" value="21025" ng-model="server.port">
+        <input id="serverPort" type="number" value="21025" ng-model="server.port" ng-change="checkAuthMod()">
         <label for="port">Port</label>
       </div>
     </div>
-    <div class="row">
+
+    <div class="row" ng-show="showOtherForm">
       <div class="input-field col s12">
-        <input type="checkbox" id="hasOtherAuthSys" name="hasOtherAuthSys" ng-model="server.hasOtherAuthSys">
-        <label for="hasOtherAuthSys">Has other authentification systems ?</label>
+        <input id="email" type="email" id="email" value="{{server.user.email}}" ng-model="server.user.email">
+        <label for="email">Email</label>
       </div>
     </div>
+    <div class="row" ng-show="showOtherForm">
+      <div class="input-field col s12">
+        <input name="password" type="password" id="serverIP" value="{{server.user.password}}" ng-model="server.user.password">
+        <label for="password">Password</label>
+      </div>
+    </div>
+
     <div class="row">
       <a ng-hide="isEditing" class="waves-effect waves-light btn" ng-click="add()">Add</a>
       <a ng-show="isEditing" class="waves-effect waves-light btn" ng-click="edit()">Edit</a>
       <a id="back" class="waves-effect waves-light btn" ng-click="back()">Cancel</a>
     </div>
+  </form>
+  <br/>
+  <form class="col s12" >
+
   </form>
 </div>

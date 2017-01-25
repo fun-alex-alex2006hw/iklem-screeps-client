@@ -15,7 +15,7 @@ const fs = require("fs"),
 function mainController($scope, $location, serverListService) {
   $scope.loadServerList = () => {
     fs.readFile("app/servers.json", (err, data) => {
-      if (!err && data.length > 0) {
+      if (!err && data.length > 2) {
         $scope.serverList = [];
         servers = JSON.parse(data.toString())
         serverListService.clean();
@@ -24,7 +24,7 @@ function mainController($scope, $location, serverListService) {
         }
         $scope.serverList = serverListService.getServerList();
         $scope.$apply();
-      } else if (err) {
+      } else {
         Materialize.toast(`Please add a server`, 5000);
       }
     });
@@ -81,7 +81,8 @@ function serverListService() {
               name: server.name,
               ip: server.ip,
               port: server.port,
-              hasOtherAuthSys: server.hasOtherAuthSys
+              hasOtherAuthSys: server.hasOtherAuthSys,
+              user: server.user || {}
             });
           }
         }
@@ -90,7 +91,7 @@ function serverListService() {
       return serverList;
     },
 
-    getServerFromList: serverID => serverList[serverID],
+    getServerWithID: serverID => serverList[serverID],
 
     clean: () => serverList = []
   };

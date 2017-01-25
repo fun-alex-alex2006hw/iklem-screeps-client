@@ -38,6 +38,16 @@
     </div>
   </div>
 
+  <div class="modal modalServerConnected" id="modalServerConnected">
+    <div class="modal-content">
+      <h3>Connected !</h3>
+      <p>Username: {{player.username}}</p>
+      <p>CPU: {{player.cpu}}</p>
+      <p>GCL: {{player.gcl}}</p>
+      <p>hasPassword? {{player.password}}</p>
+    </div>
+  </div>
+
   <div class="fixed-action-btn">
     <a ng-click="addServer()" class="btn-floating btn-large red">
       <i class="material-icons">add</i>

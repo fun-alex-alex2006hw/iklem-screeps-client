@@ -3,6 +3,7 @@ function addServer($scope, $location, $routeParams, serverListService) {
 
   $scope.add = () => {
     let server = $scope.server;
+    console.log($scope.server);
     if(!$scope.isEditing) {
       if (server.ip !== "") {
         serverListService.addServer(server);
@@ -39,21 +40,56 @@ function addServer($scope, $location, $routeParams, serverListService) {
     }
   }
 
+  $scope.checkAuthMod = () => {
+    let server = $scope.server;
+      api = new ScreepsAPI({
+        host: server.ip,
+        port: server.port
+      }),
+      checkAuth = api.connect();
+
+    checkAuth
+      .then(() => {})
+      .catch(err => {
+        console.log(err);
+        switch (err) {
+          case "BADREQUEST":
+            server.hasOtherAuthSys = true;
+            $scope.showOtherForm = true;
+            break;
+          default:
+          case "AUTHMODMISSING":
+            server.hasOtherAuthSys = false;
+            $scope.showOtherForm = false;
+            break;
+        }
+        Materialize.updateTextFields();
+        $scope.$apply();
+      });
+  }
+
   if ($routeParams.action === "edit") {
-    $scope.server = serverListService.getServerFromList($routeParams.serverID);
+    $scope.server = serverListService.getServerWithID($routeParams.serverID);
     if(!$scope.server) {
       $scope.back();
+    } else {
+      $scope.checkAuthMod();
+      $scope.isEditing = true;
     }
-    $scope.isEditing = true;
   } else {
     $scope.server = {
       name: "",
       ip: "",
       port: 21025,
-      hasOtherAuthSys: false
+      hasOtherAuthSys: false,
+      user: {
+        email: "",
+        password: ""
+      }
     };
     $scope.isEditing = false;
   }
+  $scope.showOtherForm = false;
 
   Materialize.updateTextFields();
 }
