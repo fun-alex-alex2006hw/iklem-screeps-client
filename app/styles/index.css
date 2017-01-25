@@ -39,12 +39,13 @@ header {
   bottom: 65px;
 }
 
-#modalServer {
-  /* height: 350px; */
+.modal .modal-footer .btn, .modal .modal-footer .btn-flat {
+  margin: 8px;
 }
-  .modal-content {
-    color: rgb(60, 60, 60);
-  }
+.modal-content {
+  height: 250px;
+  color: rgb(60, 60, 60);
+}
 
 #serverList {
   width: 100%;
@@ -79,3 +80,7 @@ footer {
   footer a {
     cursor: pointer;
   }
+
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}

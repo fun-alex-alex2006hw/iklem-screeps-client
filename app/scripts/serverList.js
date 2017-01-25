@@ -79,11 +79,15 @@ function serverList($scope, $location, serverListService) {
   }
 
   $scope.loadServerList();
-  $(".modalServerInfo").modal();
+  $(".modalServerInfo").modal({
+    dismissible: false,
+    starting_top: "25%",
+    ending_top: "30%"
+  });
   $(".modalServerConnected").modal();
   $(".modalServerRemove").modal({
     dismissible: false,
-    starting_top: "15%",
-    ending_top: "25%"
+    starting_top: "25%",
+    ending_top: "30%"
   })
 }

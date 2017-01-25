@@ -15,15 +15,17 @@
     </tbody>
   </table>
 
-  <div id="modalServerInfo" class="modal modalServerInfo bottom-sheet">
+  <div id="modalServerInfo" class="modal modalServerInfo">
     <div class="modal-content">
-      <h3>{{server.name}}</h3>
-      <p>{{server.ip}}:{{server.port}}</p>
+      <h4>{{server.name}}</h4>
+      <p>IP address: {{server.ip}}</p>
+      <p>Account email address: {{server.user.email}}</p>
     </div>
     <div class="modal-footer">
-      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect btn-flat">Remove</a>
-      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect btn-flat">Edit</a>
-      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect btn-flat">Connect</a>
+      <a class=" modal-action modal-close waves-effect btn-flat">Cancel</a>
+      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect btn-flat red"><i class="material-icons md-light">delete</i></a>
+      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect btn-flat"><i class="material-icons">edit</i></a>
+      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect btn">Connect</a>
     </div>
   </div>
 
@@ -33,18 +35,19 @@
       <p>Do you really want to remove this server ?</p>
     </div>
     <div class="modal-footer">
-      <a class=" modal-action modal-close waves-effect btn-flat">No</a>
-      <a ng-click="removeServer(serverID, true)" class=" modal-action modal-close waves-effect btn-flat">Yes</a>
+      <a class=" modal-action modal-close waves-effect btn green">No</a>
+      <a ng-click="removeServer(serverID, true)" class=" modal-action modal-close waves-effect btn red">Yes</a>
     </div>
   </div>
 
   <div class="modal modalServerConnected" id="modalServerConnected">
     <div class="modal-content">
       <h3>Connected !</h3>
+      <p>Server: {{server.ip}}:{{server.port}}</p>
+      <hr>
       <p>Username: {{player.username}}</p>
       <p>CPU: {{player.cpu}}</p>
       <p>GCL: {{player.gcl}}</p>
-      <p>hasPassword? {{player.password}}</p>
     </div>
   </div>
 
