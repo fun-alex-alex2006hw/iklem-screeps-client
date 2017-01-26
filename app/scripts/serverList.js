@@ -74,6 +74,11 @@ function serverList($scope, $location, serverListService) {
         Materialize.toast("[ERROR]<br/>The username or password is wrong.", 5000);
         console.log(err, "- [Error] The username or password is wrong.");
         break;
+      case "ETIMEDOUT":
+        Materialize.toast("[ERROR]<br/>The server take too long to response.", 5000);
+        console.log(err, "- [Error] The server take too long to response.");
+        $("#modalServerConnecting").modal('close');
+        break;
       default:
 
     }
