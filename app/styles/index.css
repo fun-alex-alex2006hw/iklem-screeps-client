@@ -17,6 +17,7 @@ html {
 
 header {
   padding: 6px;
+  background-color: #1D1D1D;
 }
 
 .container {
@@ -83,4 +84,16 @@ footer {
 
 .material-icons.md-light {
   color: rgba(255, 255, 255, 1);
+}
+
+.grey {
+  background-color: #444444;
+}
+
+.icon {
+  padding: 0 15px;
+}
+
+.icon-little {
+  padding: 0 5px;
 }

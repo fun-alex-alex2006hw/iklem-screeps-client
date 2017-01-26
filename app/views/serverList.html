@@ -17,15 +17,15 @@
 
   <div id="modalServerInfo" class="modal modalServerInfo">
     <div class="modal-content">
+      <a class=" modal-action modal-close btn-flat right icon-little"><i class="material-icons">clear</i></a>
       <h4>{{server.name}}</h4>
       <p>IP address: {{server.ip}}</p>
       <p>Account email address: {{server.user.email}}</p>
     </div>
     <div class="modal-footer">
-      <a class=" modal-action modal-close waves-effect btn-flat">Cancel</a>
-      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect btn-flat red"><i class="material-icons md-light">delete</i></a>
-      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect btn-flat"><i class="material-icons">edit</i></a>
-      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect btn">Connect</a>
+      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect btn-flat red icon"><i class="material-icons md-light">delete</i></a>
+      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect btn-flat grey icon"><i class="material-icons md-light">edit</i></a>
+      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect btn grey">Connect</a>
     </div>
   </div>
 
@@ -35,7 +35,7 @@
       <p>Do you really want to remove this server ?</p>
     </div>
     <div class="modal-footer">
-      <a class=" modal-action modal-close waves-effect btn green">No</a>
+      <a ng-click="openServerInfo(serverID)" class="modal-action modal-close waves-effect btn green">No</a>
       <a ng-click="removeServer(serverID, true)" class=" modal-action modal-close waves-effect btn red">Yes</a>
     </div>
   </div>
@@ -48,6 +48,12 @@
       <p>Username: {{player.username}}</p>
       <p>CPU: {{player.cpu}}</p>
       <p>GCL: {{player.gcl}}</p>
+    </div>
+  </div>
+
+  <div class="modal modalServerConnecting" id="modalServerConnecting">
+    <div class="modal-content">
+      <h3>Connexion...</h3>
     </div>
   </div>
 

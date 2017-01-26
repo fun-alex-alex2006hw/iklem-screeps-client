@@ -39,6 +39,7 @@ function serverList($scope, $location, serverListService) {
       });
 
     let connexion = api.connect();
+    $("#modalServerConnecting").modal('open');
 
     connexion
       .then(() => api.me($scope.connexionValid))
@@ -49,7 +50,7 @@ function serverList($scope, $location, serverListService) {
     console.log("Fetching data...");
     console.log(data);
     $scope.player = data;
-    // Materialize.toast("Connected!", 2500);
+    $("#modalServerConnecting").modal('close');
     $("#modalServerConnected").modal('open');
     $scope.$apply()
   };
@@ -85,6 +86,11 @@ function serverList($scope, $location, serverListService) {
     ending_top: "30%"
   });
   $(".modalServerConnected").modal();
+  $(".modalServerConnecting").modal({
+    dismissible: false,
+    starting_top: "25%",
+    ending_top: "30%"
+  });
   $(".modalServerRemove").modal({
     dismissible: false,
     starting_top: "25%",
