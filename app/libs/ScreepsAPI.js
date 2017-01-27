@@ -76,25 +76,37 @@ class ScreepsAPI extends EventEmitter {
     console.log('getToken')
     return new Promise((resolve, reject) => {
       if (!cb) cb = (() => { console.log("Err no cb given");})
-      let {email, password} = this.opts
-      this.req('POST', '/api/auth/signin', { email, password }, (err, data) => {
-        console.log(err, data);
-        if (err) {
-          reject(err.code);
-        } else {
-          if (data.res.statusCode == 200) {
-            this.token = data.body.token
-            resolve(data.body.token)
-          } else if(data.res.statusCode == 400) {
-            reject("BADREQUEST", "ok")
-          } else if(data.res.statusCode == 404) {
-            reject("AUTHMODMISSING")
-          } else {
-            reject("UNAUTHORIZED")
-          }
-        }
-      })
+      let {email, password, ticket} = this.opts
+      if (email && password) {
+        this.req('POST', '/api/auth/signin', { email, password }, (err, data) => {
+          this.computeError(resolve, reject, err, data);
+        })
+      } else if (ticket) {
+        this.req('POST', '/api/auth/steam-ticket', { ticket }, (err, data) => {
+          this.computeError(resolve, reject, err, data);
+        })
+      } else {
+        this.req('POST', '/api/auth/signin', { email, password }, (err, data) => {
+          this.computeError(resolve, reject, err, data);
+        })
+      }
     })
+  }
+  computeError (resolve, reject, err, data){
+    if (err) {
+      reject(err.code);
+    } else {
+      if (data.res.statusCode == 200) {
+        this.token = data.body.token
+        resolve(data.body.token)
+      } else if(data.res.statusCode == 400) {
+        reject("BADREQUEST", "ok")
+      } else if(data.res.statusCode == 404) {
+        reject("AUTHMODMISSING")
+      } else {
+        reject("UNAUTHORIZED")
+      }
+    }
   }
   me (cb) {
     cb = cb || noop

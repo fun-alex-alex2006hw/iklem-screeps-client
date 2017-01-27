@@ -13,7 +13,7 @@ function createMainWindow() {
 
     width: 800,
     height: 600,
-    backgroundColor: "#1B1B1B",
+    backgroundColor: "#1D1D1D",
 
     webPreferences: {
       devTools: true

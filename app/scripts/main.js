@@ -1,5 +1,7 @@
-const fs = require("fs"),
-  remote = require("electron").remote.require('./main');
+const file = require("fs"),
+  remote = require("electron").remote.require('./main'),
+  greenworks = require('./greenworks/greenworks');
+let checkSteam = 0;
 
 (function() {
   angular
@@ -7,6 +9,7 @@ const fs = require("fs"),
     .controller("mainController", ["$scope", "$location", "serverListService", mainController])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
     .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
+    .controller("settings", ["$scope", "$location", "$routeParams", settings])
     .service("serverListService", [serverListService])
     .animation('.container', ["$routeParams", "$location", fadeScale])
     .config(["$routeProvider", routing]);
@@ -14,7 +17,7 @@ const fs = require("fs"),
 
 function mainController($scope, $location, serverListService) {
   $scope.loadServerList = () => {
-    fs.readFile("app/servers.json", (err, data) => {
+    file.readFile("app/servers.json", (err, data) => {
       if (!err && data.length > 2) {
         $scope.serverList = [];
         servers = JSON.parse(data.toString())
@@ -31,7 +34,7 @@ function mainController($scope, $location, serverListService) {
   };
 
   $scope.saveServerList = () => {
-    fs.writeFile("app/servers.json",
+    file.writeFile("app/servers.json",
     `${JSON.stringify(serverListService.getServerList(true))}`,
     function(err) {
       if (!err) {
@@ -41,11 +44,29 @@ function mainController($scope, $location, serverListService) {
     });
   };
 
-  $scope.home = () => {
-    $location.path("/");
-  };
+  $scope.initGreenworks = () => {
+    if (greenworks.isSteamRunning()) {
+      if (!greenworks.initAPI()) {
+        console.log('Error on initializing steam API.');
+      } else {
+        console.log('Steam API initialized successfully.');
+      }
+      $scope.steamRunning = true;
+      clearInterval(checkSteam);
+      return true;
+    } else {
+      console.log("Steam not running...");
+      $scope.steamRunning = false;
+    }
+  }
 
-  $scope.openURL = (link) => { remote.openExternal(link); }
+  $scope.home = () => $location.path("/");
+
+  $scope.openURL = (link) => remote.openExternal(link);
+
+  $scope.steamRunning = false;
+  checkSteam = setInterval($scope.initGreenworks, 5000);
+  $scope.initGreenworks();
 }
 
 function routing($routeProvider) {

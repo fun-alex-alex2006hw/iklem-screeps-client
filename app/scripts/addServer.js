@@ -1,18 +1,16 @@
 function addServer($scope, $location, $routeParams, serverListService) {
-  $scope.back = () => $scope.home();
-
   $scope.add = () => {
     let server = $scope.server;
     console.log($scope.server);
     if(!$scope.isEditing) {
       if (server.ip !== "") {
         serverListService.addServer(server);
-        fs.writeFile("app/servers.json",
+        file.writeFile("app/servers.json",
         `${JSON.stringify(serverListService.getServerList(true))}`,
         function(err) {
           if (!err) {
             Materialize.toast(`Server added!`, 4000);
-            $scope.$apply($scope.back());
+            $scope.$apply($scope.home());
           }
         });
       } else {
@@ -26,12 +24,12 @@ function addServer($scope, $location, $routeParams, serverListService) {
     if($scope.isEditing) {
       if (server.ip !== "") {
         serverListService.updateServer($routeParams.serverID, server);
-        fs.writeFile("app/servers.json",
+        file.writeFile("app/servers.json",
         `${JSON.stringify(serverListService.getServerList(true))}`,
         function(err) {
           if (!err) {
             Materialize.toast(`Server updated!`, 4000);
-            $scope.$apply($scope.back());
+            $scope.$apply($scope.home());
           }
         });
       } else {
@@ -71,7 +69,7 @@ function addServer($scope, $location, $routeParams, serverListService) {
   if ($routeParams.action === "edit") {
     $scope.server = serverListService.getServerWithID($routeParams.serverID);
     if(!$scope.server) {
-      $scope.back();
+      $scope.home();
     } else {
       $scope.checkAuthMod();
       $scope.isEditing = true;
@@ -92,4 +90,5 @@ function addServer($scope, $location, $routeParams, serverListService) {
   $scope.showOtherForm = false;
 
   Materialize.updateTextFields();
+  $('.tooltipped').tooltip('remove');
 }

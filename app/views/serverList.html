@@ -17,15 +17,40 @@
 
   <div id="modalServerInfo" class="modal modalServerInfo">
     <div class="modal-content">
-      <a class=" modal-action modal-close btn-flat right icon-little"><i class="material-icons">clear</i></a>
+      <a
+        class="tooltipped modal-action modal-close btn-flat right icon-little"
+        data-position="top"
+        data-delay="1000"
+        data-tooltip="Close">
+        <i class="material-icons">clear</i>
+      </a>
       <h4>{{server.name}}</h4>
-      <p>IP address: {{server.ip}}</p>
-      <p>Account email address: {{server.user.email}}</p>
+      <ul class="collection">
+        <li class="collection-item">IP address: {{server.ip}}</li>
+        <li class="collection-item" ng-show="server.user.email">The server is using ags131 auth mod.</li>
+        <li class="collection-item" ng-show="server.user.email">Account email address: {{server.user.email}}</li>
+        <li class="collection-item green" ng-show="steamRunning">Connexion with Steam is available.</li>
+        <li class="collection-item red" ng-hide="steamRunning || server.user.email">You can't connect to this server with Steam. Please launch the Steam client.</li>
+        </li>
+      </ul>
     </div>
     <div class="modal-footer">
-      <a ng-click="removeServer(serverID)" class=" modal-action modal-close waves-effect btn-flat red icon"><i class="material-icons md-light">delete</i></a>
-      <a ng-click="addServer(true, serverID)" class=" modal-action modal-close waves-effect btn-flat grey icon"><i class="material-icons md-light">edit</i></a>
-      <a ng-click="connectToServer(serverID)" class=" modal-action modal-close waves-effect btn grey">Connect</a>
+      <a ng-click="removeServer(serverID)" class="tooltipped modal-action modal-close btn-flat icon" data-position="bottom" data-delay="0" data-tooltip="Delete">
+        <i class="material-icons">delete</i>
+      </a>
+      <a ng-click="addServer(true, serverID)" class="tooltipped modal-action modal-close btn-flat icon" data-position="bottom" data-delay="0" data-tooltip="Edit">
+        <i class="material-icons">edit</i>
+      </a>
+      <a ng-click="connectToServer(serverID)" class="modal-action modal-close waves-effect btn new-grey left" ng-show="server.user.email">Connect with credentials</a>
+      <a
+        ng-click="connectToServer(serverID, true)"
+        class="btn tooltipped modal-action modal-close waves-effect new-grey left"
+        ng-show="steamRunning"
+        data-position="bottom"
+        data-delay="0"
+        data-tooltip="Connect with Steam">
+        <img class="steam" src="images/steam.png" />
+      </a>
     </div>
   </div>
 
@@ -58,7 +83,12 @@
   </div>
 
   <div class="fixed-action-btn">
-    <a ng-click="addServer()" class="btn-floating btn-large red">
+    <a
+      ng-click="addServer()"
+      class="btn-floating btn-large red tooltipped"
+      data-position="left"
+      data-delay="200"
+      data-tooltip="Add new server">
       <i class="material-icons">add</i>
     </a>
   </div>

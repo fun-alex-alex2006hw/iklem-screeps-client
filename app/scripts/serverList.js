@@ -1,4 +1,3 @@
-
 function serverList($scope, $location, serverListService) {
   // Load server list
   // If file doesn't exist, notify the user to add servers to the list
@@ -8,15 +7,22 @@ function serverList($scope, $location, serverListService) {
   $scope.openServerInfo = (serverID) => {
     $scope.serverID = serverID;
     $scope.server = $scope.serverList[serverID];
-    $('#modalServerInfo').modal('open');
+    Materialize.toast("Loading", 500);
+    setTimeout($scope.openModalDelay, 500, '#modalServerInfo');
   };
 
+  $scope.openModalDelay = (modal) => {
+    $(modal).modal('open');
+  }
+
   $scope.addServer = (editMode = false, serverID = -1) => {
+    $('.tooltipped').tooltip('remove');
     if (editMode) {
       $location.path(`/add/edit/${serverID}`);
     } else {
       $location.path("/add");
     }
+    $('.tooltipped').tooltip({delay: 25});
   };
 
   $scope.removeServer = (serverID, modalValid = false) => {
@@ -29,21 +35,43 @@ function serverList($scope, $location, serverListService) {
     }
   };
 
-  $scope.connectToServer = (serverID) => {
-    let server = serverListService.getServerWithID(serverID),
-      api = new ScreepsAPI({
+  $scope.connectToServer = (serverID, withSteam = false) => {
+    let server = serverListService.getServerWithID(serverID);
+    $('.tooltipped').tooltip('remove');
+
+    if (!withSteam) {
+      let api = new ScreepsAPI({
         email: server.user.email,
         password: server.user.password,
         host: server.ip,
         port: server.port
-      });
+      }),
+      connexion = api.connect();
+      $("#modalServerConnecting").modal('open');
 
-    let connexion = api.connect();
-    $("#modalServerConnecting").modal('open');
+      connexion
+        .then(() => api.me($scope.connexionValid))
+        .catch($scope.connexionError);
+    } else if ($scope.steamRunning) {
+      $("#modalServerConnecting").modal('open');
+      greenworks.getAuthSessionTicket(
+        (ticket) => {
+          console.log(ticket);
+          let api = new ScreepsAPI({
+            ticket: ticket.ticket,
+            host: server.ip,
+            port: server.port
+          }),
+          connexion = api.connect();
 
-    connexion
-      .then(() => api.me($scope.connexionValid))
-      .catch($scope.connexionError);
+          connexion
+            .then(() => api.me($scope.connexionValid))
+            .catch($scope.connexionError);
+        },
+        (err) => console.log(err)
+      );
+    }
+    $('.tooltipped').tooltip({delay: 25});
   };
 
   $scope.connexionValid = (data) => {
@@ -56,6 +84,7 @@ function serverList($scope, $location, serverListService) {
   };
 
   $scope.connexionError = (err) => {
+    $("#modalServerConnecting").modal('close');
     switch (err) {
       case "ECONNREFUSED":
       case "ENOTFOUND":
@@ -77,20 +106,22 @@ function serverList($scope, $location, serverListService) {
       case "ETIMEDOUT":
         Materialize.toast("[ERROR]<br/>The server take too long to response.", 5000);
         console.log(err, "- [Error] The server take too long to response.");
-        $("#modalServerConnecting").modal('close');
         break;
-      default:
-
     }
   }
 
   $scope.loadServerList();
+
+  // Loading modals windows
   $(".modalServerInfo").modal({
     dismissible: false,
     starting_top: "25%",
     ending_top: "30%"
   });
   $(".modalServerConnected").modal();
+  $(".modalServerConnexionChoice").modal({
+    dismissible: false
+  });
   $(".modalServerConnecting").modal({
     dismissible: false,
     starting_top: "25%",
@@ -101,4 +132,5 @@ function serverList($scope, $location, serverListService) {
     starting_top: "25%",
     ending_top: "30%"
   })
+  $('.tooltipped').tooltip({delay: 25});
 }

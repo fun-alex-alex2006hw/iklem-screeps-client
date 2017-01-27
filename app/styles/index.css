@@ -15,9 +15,33 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
-header {
-  padding: 6px;
-  background-color: #1D1D1D;
+nav {
+  background-color: #1C1C1C;
+}
+  nav .brand-logo {
+    padding: 0 15px;
+  }
+
+hr {
+  margin: 5px 5px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.logo {
+  top: 2px;
+  position: relative;
+
+  width: 150px;
+  height: 30px;
+
+  background: transparent url("../images/header.png");
+  /* background-position-y: -30px; */
+
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .container {
@@ -44,7 +68,7 @@ header {
   margin: 8px;
 }
 .modal-content {
-  height: 250px;
+  height: 275px;
   color: rgb(60, 60, 60);
 }
 
@@ -59,7 +83,10 @@ header {
     background-color: #211f21;
   }
   #serverList tr:nth-child(even) {
-    background-color: #211f21;
+    background-color: #1A1A1A;
+  }
+  #serverList tr:nth-child(odd) {
+    background-color: #252525;
   }
   #serverList tr {
     cursor: pointer;
@@ -86,8 +113,8 @@ footer {
   color: rgba(255, 255, 255, 1);
 }
 
-.grey {
-  background-color: #444444;
+.new-grey {
+  background-color: #444;
 }
 
 .icon {
@@ -96,4 +123,9 @@ footer {
 
 .icon-little {
   padding: 0 5px;
+}
+
+.steam {
+  position: relative;
+  top: 2px;
 }

@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="styles/index.css">
 
     <!-- OTHER LIBS -->
-    <script src="../node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
-    <script src="../node_modules/hammerjs/hammer.js" charset="utf-8"></script>
-    <script src="../node_modules/materialize-css/dist/js/materialize.min.js" charset="utf-8"></script>
-    <script src="libs/ScreepsAPI.js" charset="utf-8"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script> <!-- JQuery -->
+    <script src="../node_modules/hammerjs/hammer.js" charset="utf-8"></script>  <!-- Hammer - Required by JQuery -->
+    <script src="../node_modules/materialize-css/dist/js/materialize.min.js" charset="utf-8"></script>  <!-- Materialize -->
+    <script src="libs/ScreepsAPI.js" charset="utf-8"></script>  <!-- ScreepsAPI hacked by myself -->
 
     <!-- GSPA PLUGIN -->
     <script type="text/javascript" src="../node_modules/gsap/src/minified/TweenMax.min.js"></script>
@@ -25,8 +25,17 @@
     <script type="text/javascript" src="../node_modules/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
   </head>
   <body ng-controller="mainController">
-    <header id="header" class="z-depth-2"><h3>A Screeps client</h3></header>
-    <div ng-view class="container"></div>
+    <nav>
+      <div class="nav-wrapper">
+        <a ng-click="home()" class="left brand-logo">A <div class="logo"></div> client</a>
+        <h6 ng-show="steamRunning" class="right">(debug) Steam is running.</h6>
+        <!-- <ul id="nav-mobile" class="right">
+          <li><a ng-click="goToSettings()"><i class="material-icons left">settings</i>Settings</a></li>
+        </ul> -->
+      </div>
+    </nav>
+    <div ng-view class="container">
+    </div>
 
     <footer>
       <div>
@@ -42,6 +51,7 @@
   <!-- ANGULAR CONTROLLERS -->
   <script src="scripts/serverList.js" charset="utf-8"></script>
   <script src="scripts/addServer.js" charset="utf-8"></script>
+  <script src="scripts/settings.js" charset="utf-8"></script>
 
   <!-- MAIN -->
   <script src="scripts/main.js" charset="utf-8"></script>
