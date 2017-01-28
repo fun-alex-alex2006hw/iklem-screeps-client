@@ -9,7 +9,6 @@ let checkSteam = 0;
     .controller("mainController", ["$scope", "$location", "serverListService", mainController])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
     .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
-    .controller("settings", ["$scope", "$location", "$routeParams", settings])
     .service("serverListService", [serverListService])
     .animation('.container', ["$routeParams", "$location", fadeScale])
     .config(["$routeProvider", routing]);
