@@ -43,27 +43,43 @@ function addServer($scope, $location, $routeParams, serverListService) {
       api = new ScreepsAPI({
         host: server.ip,
         port: server.port
-      }),
-      checkAuth = api.connect();
-
-    checkAuth
-      .then(() => {})
-      .catch(err => {
-        console.log(err);
-        switch (err) {
-          case "BADREQUEST":
-            server.hasOtherAuthSys = true;
-            $scope.showOtherForm = true;
-            break;
-          default:
-          case "AUTHMODMISSING":
-            server.hasOtherAuthSys = false;
-            $scope.showOtherForm = false;
-            break;
-        }
-        Materialize.updateTextFields();
-        $scope.$apply();
       });
+
+    /*
+      Checking for any installed authentification mod
+      (if auth mod using the /authmod http endpoint)
+      If server doesn't have one, we using Steam authentification
+    */
+    api.req("GET", "/authmod", {}, (err, data) => {
+      console.log(data);
+      if (data.body.ok) {
+        // TODO: if more than 1 auth mod, check name to change the form.
+        server.hasOtherAuthSys = true;
+        $scope.showOtherForm = true;
+      } else if (data.res.statusCode === 404){
+        // TODO: when screepsmod-auth is update with my PR, remove this part.
+        api.connect()
+          .then(() => {})
+          .catch(err => {
+            console.log(err);
+            switch (err) {
+              case "BADREQUEST":
+                server.hasOtherAuthSys = true;
+                $scope.showOtherForm = true;
+                break;
+              default:
+              case "AUTHMODMISSING":
+                server.hasOtherAuthSys = false;
+                $scope.showOtherForm = false;
+                break;
+            }
+            Materialize.updateTextFields();
+            $scope.$apply();
+          });
+      }
+      Materialize.updateTextFields();
+      $scope.$apply();
+    });
   }
 
   if ($routeParams.action === "edit") {
@@ -75,6 +91,7 @@ function addServer($scope, $location, $routeParams, serverListService) {
       $scope.isEditing = true;
     }
   } else {
+    // TODO: if more than 1 auth mod, add authName.
     $scope.server = {
       name: "",
       ip: "",
