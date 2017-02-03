@@ -85,10 +85,6 @@ class ScreepsAPI extends EventEmitter {
         this.req('POST', '/api/auth/steam-ticket', { ticket }, (err, data) => {
           this.computeError(resolve, reject, err, data);
         })
-      } else {
-        this.req('POST', '/api/auth/signin', { email, password }, (err, data) => {
-          this.computeError(resolve, reject, err, data);
-        })
       }
     })
   }

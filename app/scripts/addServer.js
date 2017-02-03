@@ -57,25 +57,8 @@ function addServer($scope, $location, $routeParams, serverListService) {
         server.hasOtherAuthSys = true;
         $scope.showOtherForm = true;
       } else if (data.res.statusCode === 404){
-        // TODO: when screepsmod-auth is update with my PR, remove this part.
-        api.connect()
-          .then(() => {})
-          .catch(err => {
-            console.log(err);
-            switch (err) {
-              case "BADREQUEST":
-                server.hasOtherAuthSys = true;
-                $scope.showOtherForm = true;
-                break;
-              default:
-              case "AUTHMODMISSING":
-                server.hasOtherAuthSys = false;
-                $scope.showOtherForm = false;
-                break;
-            }
-            Materialize.updateTextFields();
-            $scope.$apply();
-          });
+        server.hasOtherAuthSys = false;
+        $scope.showOtherForm = false;
       }
       Materialize.updateTextFields();
       $scope.$apply();
