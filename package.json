@@ -4,7 +4,8 @@
   "description": "Unofficial Screeps client",
   "main": "app/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/electron/dist/electron ."
   },
   "repository": {
     "type": "git",
@@ -16,12 +17,12 @@
     "electron": "^1.4.15"
   },
   "dependencies": {
-    "angular": "^1.6.1",
-    "angular-animate": "^1.6.1",
-    "angular-route": "^1.6.1",
+    "angular": "^1.6.2",
+    "angular-animate": "^1.6.2",
+    "angular-route": "^1.6.2",
     "gsap": "^1.19.1",
     "jquery": "^3.1.1",
-    "materialize-css": "^0.97.8",
-    "ws": "^1.1.1"
+    "materialize-css": "^0.98.0",
+    "ws": "^2.0.3"
   }
 }
