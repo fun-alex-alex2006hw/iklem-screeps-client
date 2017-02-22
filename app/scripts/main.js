@@ -1,6 +1,7 @@
 const file = require("fs"),
   remote = require("electron").remote.require('./main'),
   greenworks = require('./greenworks/greenworks');
+
 let checkSteam = 0;
 
 (function() {
@@ -15,6 +16,20 @@ let checkSteam = 0;
 }());
 
 function mainController($scope, $location, serverListService) {
+  $scope.checkServerStatus = (server) => {
+    request({
+      url: `http://${server.ip}:${server.port}`,
+      method: "GET"
+    }, (err, res, body) => {
+      if (!res) {
+        server.status = "ERROR";
+      } else {
+        server.status = "OK";
+      }
+      $scope.$apply();
+    })
+  };
+
   $scope.loadServerList = () => {
     file.readFile("app/servers.json", (err, data) => {
       if (!err && data.length > 2) {
@@ -23,6 +38,7 @@ function mainController($scope, $location, serverListService) {
         serverListService.clean();
         for(let server of servers) {
           serverListService.addServer(server);
+          $scope.checkServerStatus(server);
         }
         $scope.serverList = serverListService.getServerList();
         $scope.$apply();
@@ -64,8 +80,8 @@ function mainController($scope, $location, serverListService) {
   $scope.openURL = (link) => remote.openExternal(link);
 
   $scope.steamRunning = false;
-  checkSteam = setInterval($scope.initGreenworks, 5000);
-  $scope.initGreenworks();
+  /* checkSteam = setInterval($scope.initGreenworks, 5000);
+  $scope.initGreenworks(); */
 }
 
 function routing($routeProvider) {

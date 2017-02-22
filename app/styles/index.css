@@ -129,3 +129,11 @@ footer {
   position: relative;
   top: 2px;
 }
+
+.OK {
+  color: #3aa448
+}
+
+.ERROR {
+  color: #ba452b
+}

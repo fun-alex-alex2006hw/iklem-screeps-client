@@ -5,12 +5,16 @@
       <th id="nameServer">Name</th>
       <th id="ipServer">IP</th>
       <th id="portServer">Port</th>
+      <!-- <th id="versionServer">version</th> -->
+      <th id="statusServer">Status</th>
     </thead>
     <tbody>
       <tr ng-repeat="server in serverList | orderBy" ng-click="openServerInfo($index)">
         <td>{{server.name}}</td>
         <td>{{server.ip}}</td>
         <td>{{server.port}}</td>
+        <!-- <td>{{server.version}}</td> -->
+        <td class={{server.status}}>{{server.status}}</td>
       </div>
     </tbody>
   </table>
