@@ -1,42 +1,60 @@
 function serverList($scope, $location, serverListService) {
-  // Load server list
-  // If file doesn't exist, notify the user to add servers to the list
-  $scope.server = serverListService.getServerWithID(0);
-  $scope.player = {}
-
-  $scope.openServerInfo = (serverID) => {
-    $scope.serverID = serverID;
-    $scope.server = $scope.serverList[serverID];
+  /**
+   * Open the selected server informations
+   * @param  {Server} server the server to use
+   */
+  $scope.openServerInfo = (server) => {
+    $scope.server = server;
     Materialize.toast("Loading", 500);
-    setTimeout($scope.openModalDelay, 500, '#modalServerInfo');
+    $scope.openModalDelay("#modalServerInfo", 500);
   };
 
-  $scope.openModalDelay = (modal) => {
-    $(modal).modal('open');
+  /**
+   * Open a modal with a delay
+   * @param  {Object} modal The modal to open
+   * @param  {number} delay Delay in milliseconds
+   */
+  $scope.openModalDelay = (modal, delay) => {
+    setTimeout(() => {
+      $(modal).modal('open')
+    }, delay);
   }
 
-  $scope.addServer = (editMode = false, serverID = -1) => {
+  /**
+   * Add or Edit a selected server
+   * @param {Server} [server=null] The server to edit if given
+   */
+  $scope.addServer = (server = null) => {
     $('.tooltipped').tooltip('remove');
-    if (editMode) {
-      $location.path(`/add/edit/${serverID}`);
+    if (server) {
+      $location.path(`/add/edit/${server.id}`);
     } else {
       $location.path("/add");
     }
     $('.tooltipped').tooltip({delay: 25});
   };
 
-  $scope.removeServer = (serverID, modalValid = false) => {
+  /**
+   * Remove a server from the list & servers.json file
+   * @param  {Server}  server             The server to remove
+   * @param  {Boolean} [modalValid=false] If the user said "Yes"
+   */
+  $scope.removeServer = (server, modalValid = false) => {
     if(!modalValid) {
       $('#modalRemoveServer').modal('open');
     } else {
-      serverListService.removeServer(serverID);
+      serverListService.removeServer(server);
       $scope.saveServerList();
       $scope.loadServerList();
     }
   };
 
-  $scope.connectToServer = (serverID, withSteam = false) => {
-    let server = serverListService.getServerWithID(serverID);
+  /**
+   * Connect to a selected server
+   * @param  {Server}  server            The server to connect to
+   * @param  {Boolean} [withSteam=false] If you want to connect with Steam
+   */
+  $scope.connectToServer = (server, withSteam = false) => {
     $('.tooltipped').tooltip('remove');
 
     if (!withSteam) {
@@ -74,6 +92,10 @@ function serverList($scope, $location, serverListService) {
     $('.tooltipped').tooltip({delay: 25});
   };
 
+  /**
+   * Function to launch the valid connexion
+   * @param  {Object} data The return data from the connexion
+   */
   $scope.connexionValid = (data) => {
     console.log("Fetching data...");
     console.log(data);
@@ -83,6 +105,10 @@ function serverList($scope, $location, serverListService) {
     $scope.$apply()
   };
 
+  /**
+   * Function to show the error message
+   * @param  {string} err The error value
+   */
   $scope.connexionError = (err) => {
     $("#modalServerConnecting").modal('close');
     switch (err) {
@@ -95,10 +121,6 @@ function serverList($scope, $location, serverListService) {
         Materialize.toast("[ERROR]<br/>Some credentials are missing or haven't been provided.", 5000);
         console.log(err, "- [Error] Some credentials are missing or haven't been provided.");
         break;
-      case "AUTHMODMISSING":
-        Materialize.toast("[ERROR]<br/>The server doesn't have the ags131 screepsmod-auth installed.<br/>Please use Steam authentification.", 7500);
-        console.log(err, "- [Error] The server doesn't have the ags131 screepsmod-auth installed. Please use Steam authentification.");
-        break;
       case "UNAUTHORIZED":
         Materialize.toast("[ERROR]<br/>The username or password is wrong.", 5000);
         console.log(err, "- [Error] The username or password is wrong.");
@@ -110,27 +132,35 @@ function serverList($scope, $location, serverListService) {
     }
   }
 
-  $scope.loadServerList();
+  $scope.server = serverListService.getServerWithID(0);
+  $scope.player = {}
+
+  if (!$scope.serverList) {
+    $scope.loadServerList();
+  }
 
   // Loading modals windows
   $(".modalServerInfo").modal({
     dismissible: false,
-    starting_top: "25%",
-    ending_top: "30%"
+    startingTop: "39%",
+    endingTop: "40%"
   });
-  $(".modalServerConnected").modal();
-  $(".modalServerConnexionChoice").modal({
-    dismissible: false
+  $(".modalServerConnected").modal({
+    startingTop: "39%",
+    endingTop: "40%"
   });
   $(".modalServerConnecting").modal({
     dismissible: false,
-    starting_top: "25%",
-    ending_top: "30%"
+    opacity: .9,
+    inDuration: 500,
+    startingTop: "39%",
+    endingTop: "40%"
   });
   $(".modalServerRemove").modal({
     dismissible: false,
-    starting_top: "25%",
-    ending_top: "30%"
+    startingTop: "39%",
+    endingTop: "40%"
   })
   $('.tooltipped').tooltip({delay: 25});
+  $('.collapsible').collapsible();
 }

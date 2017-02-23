@@ -16,20 +16,74 @@ let checkSteam = 0;
 }());
 
 function mainController($scope, $location, serverListService) {
+  $scope.subtitles = require("./libs/subtitles.js");
+
+  /**
+   * Check if server is reachable
+   * @param  {Server} server the server to check
+   */
   $scope.checkServerStatus = (server) => {
+    server.status = undefined;
+    server.version = undefined;
+    server.error = undefined;
     request({
       url: `http://${server.ip}:${server.port}`,
-      method: "GET"
+      method: "GET",
+      timeout: 10000
     }, (err, res, body) => {
       if (!res) {
-        server.status = "ERROR";
+        server.status = false;
+        server.error = err;
+        console.log("Error for server", server.name, "\n\r", err);
       } else {
-        server.status = "OK";
+        if ($scope.getServerVersion(server, body)) {
+          server.status = true;
+          server.error = undefined;
+          server.credOK = server.user.email ? true : false;
+          server.steamOK = $scope.steamRunning;
+        } else {
+          server.status = false;
+          server.error = "Error: Can't get server version. I'm not sure if the server is reachable."
+        }
       }
       $scope.$apply();
     })
   };
 
+  /**
+   * Check if server has version and store it
+   * @param  {Server} server the server to check
+   * @param  {string} body   body with the version in it
+   * @return {boolean}       True if there's one, False if error
+   */
+  $scope.getServerVersion = (server, body) => {
+    const version = body.match(/v[0-9.]+/g)
+    if (version) {
+      server.version = version[0];
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Reload the servers status
+   * @param  {Boolean} [force=false] force the list to refresh
+   */
+  $scope.reload = (force = false) => {
+    console.log("RELOADING!");
+    if (force) {
+      $scope.serverList = [];
+      $scope.loadServerList();
+    } else {
+      for (let server of $scope.serverList) {
+        $scope.checkServerStatus(server);
+      }
+    }
+  }
+
+  /**
+   * Load the servers from the servers.json file
+   */
   $scope.loadServerList = () => {
     file.readFile("app/servers.json", (err, data) => {
       if (!err && data.length > 2) {
@@ -48,6 +102,9 @@ function mainController($scope, $location, serverListService) {
     });
   };
 
+  /**
+   * Save the actual list to the servers.json file
+   */
   $scope.saveServerList = () => {
     file.writeFile("app/servers.json",
     `${JSON.stringify(serverListService.getServerList(true))}`,
@@ -59,6 +116,9 @@ function mainController($scope, $location, serverListService) {
     });
   };
 
+  /**
+   * If steam is open, initialize Greenworks for Steam authentification
+   */
   $scope.initGreenworks = () => {
     if (greenworks.isSteamRunning()) {
       if (!greenworks.initAPI()) {
@@ -75,13 +135,33 @@ function mainController($scope, $location, serverListService) {
     }
   }
 
+  /**
+   * Return to the home page (serverList)
+   */
   $scope.home = () => $location.path("/");
 
+  /**
+   * Open external URL to the defautl web browser.
+   * @param  {string} link the link to go to
+   */
   $scope.openURL = (link) => remote.openExternal(link);
 
+  /**
+   * (DEBUG) change the subtitle
+   */
+  $scope.changeSub = () => {
+    $scope.subtitle = $scope.subtitles[Math.floor(Math.random() * $scope.subtitles.length)];
+  }
+
+  $scope.changeSub();
+
   $scope.steamRunning = false;
-  /* checkSteam = setInterval($scope.initGreenworks, 5000);
-  $scope.initGreenworks(); */
+  checkSteam = setInterval($scope.initGreenworks, 5000);
+  $scope.initGreenworks();
+
+  $(document).ready(function () {
+    TweenMax.to($("body"), .4, {opacity:1})
+  });
 }
 
 function routing($routeProvider) {
@@ -104,20 +184,21 @@ function serverListService() {
   return {
     addServer: server => serverList.push(server),
 
-    updateServer: (serverID, newServer) => serverList[serverID] = newServer,
+    updateServer: (server, newServer) => serverList[server.id] = newServer,
 
-    removeServer: (serverID) => delete serverList[serverID],
+    removeServer: server => delete serverList[server.id],
 
     getServerList: (noHashKey = false) => {
       if (noHashKey) {
         let newList = [];
-        for(let server of serverList) {
+        for(let id in serverList) {
+          let server = serverList[id];
           if (server) {
             newList.push({
+              id,
               name: server.name,
               ip: server.ip,
               port: server.port,
-              hasOtherAuthSys: server.hasOtherAuthSys,
               user: server.user || {}
             });
           }
@@ -127,7 +208,11 @@ function serverListService() {
       return serverList;
     },
 
-    getServerWithID: serverID => serverList[serverID],
+    getServerWithID: id => serverList[id],
+
+    getLastID: () => serverList.length - 1,
+
+    getNextID: () => serverList.length,
 
     clean: () => serverList = []
   };

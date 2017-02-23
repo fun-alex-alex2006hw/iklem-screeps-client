@@ -15,11 +15,20 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  opacity: 0;
+}
+
 nav {
   background-color: #1C1C1C;
 }
   nav .brand-logo {
     padding: 0 15px;
+  }
+  nav .brand-logo .little {
+    margin: 0 10px;
+    font-size: .45em;
+    font-style: italic;
   }
 
 hr {
@@ -46,6 +55,7 @@ a {
 
 .container {
   width: 75%;
+  margin-bottom: 90px;
 }
 
 .input-field input {
@@ -64,12 +74,19 @@ a {
   bottom: 65px;
 }
 
+.modal {
+  position: absolute;
+}
 .modal .modal-footer .btn, .modal .modal-footer .btn-flat {
   margin: 8px;
 }
 .modal-content {
-  height: 275px;
+  /*height: 275px;*/
   color: rgb(60, 60, 60);
+}
+.modalServerConnecting .modal-content {
+  height: 200px;
+  text-align: center;
 }
 
 #serverList {
@@ -97,7 +114,7 @@ a {
 
 footer {
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background-color: #252425;
   z-index: 1;
@@ -128,12 +145,4 @@ footer {
 .steam {
   position: relative;
   top: 2px;
-}
-
-.OK {
-  color: #3aa448
-}
-
-.ERROR {
-  color: #ba452b
 }

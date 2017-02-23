@@ -1,8 +1,6 @@
-const {app, BrowserWindow, shell} = require("electron"),
-  ServerManager = require("./libs/serverManager.js");
+const {app, BrowserWindow, shell} = require("electron");
 
-let mainWindow,
-  server = ServerManager();
+let mainWindow;
 
 function createMainWindow() {
   const win = new BrowserWindow({

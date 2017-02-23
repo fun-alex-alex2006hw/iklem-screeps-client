@@ -1,7 +1,10 @@
 function addServer($scope, $location, $routeParams, serverListService) {
+
+  /**
+   * Add a server to the servers.json file.
+   */
   $scope.add = () => {
     let server = $scope.server;
-    console.log($scope.server);
     if(!$scope.isEditing) {
       if (server.ip !== "") {
         serverListService.addServer(server);
@@ -10,6 +13,8 @@ function addServer($scope, $location, $routeParams, serverListService) {
         function(err) {
           if (!err) {
             Materialize.toast(`Server added!`, 4000);
+            $scope.reload(true);
+            $scope.checkServerStatus(server);
             $scope.$apply($scope.home());
           }
         });
@@ -19,11 +24,15 @@ function addServer($scope, $location, $routeParams, serverListService) {
     }
   }
 
+  /**
+   * Edit the selected server with the serverList
+   */
   $scope.edit = () => {
     let server = $scope.server;
+      oldServer = serverListService.getServerWithID($routeParams.serverID);
     if($scope.isEditing) {
       if (server.ip !== "") {
-        serverListService.updateServer($routeParams.serverID, server);
+        serverListService.updateServer(oldServer, server);
         file.writeFile("app/servers.json",
         `${JSON.stringify(serverListService.getServerList(true))}`,
         function(err) {
@@ -38,6 +47,9 @@ function addServer($scope, $location, $routeParams, serverListService) {
     }
   }
 
+  /**
+   * Check if the server is running any authentification mods
+   */
   $scope.checkAuthMod = () => {
     let server = $scope.server;
       api = new ScreepsAPI({
@@ -51,14 +63,15 @@ function addServer($scope, $location, $routeParams, serverListService) {
       If server doesn't have one, we using Steam authentification
     */
     api.req("GET", "/authmod", {}, (err, data) => {
-      console.log(data);
-      if (data.body.ok) {
-        // TODO: if more than 1 auth mod, check name to change the form.
-        server.hasOtherAuthSys = true;
+      if (data) {
+        if (data.body.ok) {
+          // TODO: if more than 1 auth mod, check name to change the form.
+          $scope.showOtherForm = true;
+        } else if (data.res.statusCode === 404){
+          $scope.showOtherForm = false;
+        }
+      } else if (server.user.email !== "") {
         $scope.showOtherForm = true;
-      } else if (data.res.statusCode === 404){
-        server.hasOtherAuthSys = false;
-        $scope.showOtherForm = false;
       }
       Materialize.updateTextFields();
       $scope.$apply();
@@ -76,10 +89,10 @@ function addServer($scope, $location, $routeParams, serverListService) {
   } else {
     // TODO: if more than 1 auth mod, add authName.
     $scope.server = {
+      id: serverListService.getNextID(),
       name: "",
       ip: "",
       port: 21025,
-      hasOtherAuthSys: false,
       user: {
         email: "",
         password: ""
