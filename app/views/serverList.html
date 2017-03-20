@@ -10,7 +10,7 @@
       <th style="text-align:center" id="statusServer">Status</th>
     </thead>
     <tbody>
-      <tr ng-repeat="server in serverList" class="info" ng-click="openServerInfo(server)">
+      <tr ng-repeat="server in serverList" ng-click="openServerInfo(server)">
         <td>{{server.name}}</td>
         <td>{{server.ip}}</td>
         <td class="center">{{server.port}}</td>
@@ -24,29 +24,24 @@
     </tbody>
   </table>
 
-  <div id="modalServerInfo" class="modal modalServerInfo">
+  <div id="modalServerInfo" class="modal bottom-sheet modalServerInfo">
     <div class="modal-content">
       <a class="tooltipped modal-action modal-close btn-flat right icon-little" data-position="top" data-delay="5000" data-tooltip="Close this window. Duh">
         <i class="material-icons">clear</i>
       </a>
       <h4>{{server.name}}</h4>
-      <ul class="collection">
-        <li class="collection-item">IP address: {{server.ip}}</li>
-        <li class="collection-item" ng-show="server.user.email">Account email address: {{server.user.email}}</li>
+      <ul class="collection" ng-if="server.status != undefined">
+        <li class="collection-item" ng-show="server.user.email">Account email: <b>{{server.user.email}}</b></li>
         <li class="collection-item red-text" ng-show="server.error">{{server.error}}</li>
-      <ul>
-      <!-- <ul class="collection">
-        <li class="collection-item" ng-show="server.user.email">The server is using ags131 auth mod.</li>
-        <li class="collection-item green" ng-show="steamRunning">Connexion with Steam is available.</li>
-        <li class="collection-item red" ng-hide="steamRunning || server.user.email">You can't connect to this server with Steam. Please launch the Steam client.</li>
+        <li class="collection-item red-text" ng-hide="steamRunning || server.user.email || server.error">You can't connect to this server without Steam. Please launch the Steam client.</li>
         </li>
-      </ul> -->
+      </ul>
     </div>
     <div class="modal-footer">
-      <a ng-click="removeServer(server)" class="tooltipped modal-action modal-close btn-flat icon" data-position="bottom" data-delay="0" data-tooltip="Delete">
+      <a ng-click="removeServer(server)" class="tooltipped modal-action btn-flat icon" data-position="top" data-delay="0" data-tooltip="Delete">
         <i class="material-icons">delete</i>
       </a>
-      <a ng-click="addServer(server, true)" class="tooltipped modal-action modal-close btn-flat icon" data-position="bottom" data-delay="0" data-tooltip="Edit">
+      <a ng-click="addServer(server, true)" class="tooltipped modal-action modal-close btn-flat icon" data-position="left" data-delay="0" data-tooltip="Edit">
         <i class="material-icons">edit</i>
       </a>
       <a ng-click="connectToServer(server)" class="modal-action modal-close waves-effect btn new-grey left" ng-show="server.credOK">Connect with credentials</a>
@@ -64,17 +59,6 @@
     <div class="modal-footer">
       <a ng-click="openServerInfo(server)" class="modal-action modal-close waves-effect btn green">No</a>
       <a ng-click="removeServer(server, true)" class=" modal-action modal-close waves-effect btn red">Yes</a>
-    </div>
-  </div>
-
-  <div class="modal modalServerConnected" id="modalServerConnected">
-    <div class="modal-content">
-      <h3>Connected !</h3>
-      <p>Server: {{server.ip}}:{{server.port}}</p>
-      <hr>
-      <p>Username: {{player.username}}</p>
-      <p>CPU: {{player.cpu}}</p>
-      <p>GCL: {{player.gcl}}</p>
     </div>
   </div>
 
@@ -101,12 +85,12 @@
     </a>
     <ul>
       <li>
-        <a ng-click="reload()" class="btn-floating green tooltipped" data-position="left" data-delay="200" data-tooltip="Refresh">
+        <a ng-click="reload()" class="btn-floating green tooltipped" data-position="left" data-tooltip="Refresh">
           <i class="material-icons">refresh</i>
         </a>
       </li>
       <li>
-        <a ng-click="addServer()" class="btn-floating blue tooltipped" data-position="left"data-delay="200" data-tooltip="Add server">
+        <a ng-click="addServer()" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Add server">
             <i class="material-icons">add</i>
         </a>
       </li>

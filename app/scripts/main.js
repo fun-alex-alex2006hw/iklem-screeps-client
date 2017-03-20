@@ -75,6 +75,7 @@ function mainController($scope, $location, serverListService) {
       $scope.serverList = [];
       $scope.loadServerList();
     } else {
+      $('.fixed-action-btn').closeFAB();
       for (let server of $scope.serverList) {
         $scope.checkServerStatus(server);
       }
@@ -125,9 +126,9 @@ function mainController($scope, $location, serverListService) {
         console.log('Error on initializing steam API.');
       } else {
         console.log('Steam API initialized successfully.');
+        $scope.steamRunning = true;
+        clearInterval(checkSteam);
       }
-      $scope.steamRunning = true;
-      clearInterval(checkSteam);
       return true;
     } else {
       console.log("Steam not running...");
@@ -174,6 +175,9 @@ function routing($routeProvider) {
     })
     .when("/add/:action/:serverID", {
       templateUrl: "views/add.html"
+    })
+    .when("/game", {
+      templateUrl: "views/game.html"
     })
     .otherwise("/");
 }

@@ -89,6 +89,7 @@ function serverList($scope, $location, serverListService) {
         (err) => console.log(err)
       );
     }
+
     $('.tooltipped').tooltip({delay: 25});
   };
 
@@ -97,12 +98,15 @@ function serverList($scope, $location, serverListService) {
    * @param  {Object} data The return data from the connexion
    */
   $scope.connexionValid = (data) => {
+    // $location.path("/game")
+
     console.log("Fetching data...");
     console.log(data);
     $scope.player = data;
     $("#modalServerConnecting").modal('close');
     $("#modalServerConnected").modal('open');
-    $scope.$apply()
+
+    $scope.$apply();
   };
 
   /**
@@ -161,6 +165,6 @@ function serverList($scope, $location, serverListService) {
     startingTop: "39%",
     endingTop: "40%"
   })
-  $('.tooltipped').tooltip({delay: 25});
+  $('.tooltipped').tooltip({delay: 0});
   $('.collapsible').collapsible();
 }

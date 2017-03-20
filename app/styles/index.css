@@ -39,6 +39,22 @@ a {
   cursor: pointer;
 }
 
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #252425;
+  z-index: 1;
+}
+  footer div {
+    margin: 12px;
+  }
+  footer a {
+    cursor: pointer;
+  }
+
+/* --- */
+
 .logo {
   top: 2px;
   position: relative;
@@ -56,22 +72,6 @@ a {
 .container {
   width: 75%;
   margin-bottom: 90px;
-}
-
-.input-field input {
-  margin: 0;
-}
-
-.btn {
-  margin: 8px;
-  background-color: #444;
-}
-  .btn:hover {
-    background-color: #444;
-  }
-
-.fixed-action-btn {
-  bottom: 65px;
 }
 
 .modal {
@@ -110,21 +110,24 @@ a {
   }
   #serverList th, #serverList td {
     padding: 6px;
+    height: 45px;
   }
 
-footer {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  background-color: #252425;
-  z-index: 1;
+.input-field input {
+  margin: 0;
 }
-  footer div {
-    margin: 12px;
+
+.btn {
+  margin: 8px;
+  background-color: #444;
+}
+  .btn:hover {
+    background-color: #444;
   }
-  footer a {
-    cursor: pointer;
-  }
+
+.fixed-action-btn {
+  bottom: 65px;
+}
 
 .material-icons.md-light {
   color: rgba(255, 255, 255, 1);
