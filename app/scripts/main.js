@@ -36,15 +36,12 @@ function mainController($scope, $location, serverListService) {
         server.error = err;
         console.log("Error for server", server.name, "\n\r", err);
       } else {
-        if ($scope.getServerVersion(server, body)) {
-          server.status = true;
-          server.error = undefined;
-          server.credOK = server.user.email ? true : false;
-          server.steamOK = $scope.steamRunning;
-        } else {
-          server.status = false;
-          server.error = "Error: Can't get server version. I'm not sure if the server is reachable."
+        if (!$scope.getServerVersion(server, body)) {
+          server.warning = "Warning: Can't get server version.";
         }
+        server.status = true;
+        server.credOK = server.user.email ? true : false;
+        server.steamOK = $scope.steamRunning;
       }
       $scope.$apply();
     })

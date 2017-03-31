@@ -33,6 +33,7 @@
       <ul class="collection" ng-if="server.status != undefined">
         <li class="collection-item" ng-show="server.user.email">Account email: <b>{{server.user.email}}</b></li>
         <li class="collection-item red-text" ng-show="server.error">{{server.error}}</li>
+        <li class="collection-item orange-text" ng-show="server.warning">{{server.warning}}</li>
         <li class="collection-item red-text" ng-hide="steamRunning || server.user.email || server.error">You can't connect to this server without Steam. Please launch the Steam client.</li>
         </li>
       </ul>

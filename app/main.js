@@ -10,7 +10,7 @@ function createMainWindow() {
     icon: "app/images/logo/screeps.png",
 
     width: 1280,
-    height: 720,
+    height: 900,
     backgroundColor: "#1D1D1D",
 
     webPreferences: {
