@@ -52,30 +52,35 @@ function addServer($scope, $location, $routeParams, serverListService) {
    */
   $scope.checkAuthMod = () => {
     let server = $scope.server;
+    if (server.ip !== "") {
       api = new ScreepsAPI({
-        host: server.ip,
+        host: server.ip === "localhost" ? "127.0.0.1" : server.ip,
         port: server.port
       });
 
-    /*
+      /*
       Checking for any installed authentification mod
-      (if auth mod using the /authmod http endpoint)
+      (if auth mod using the /api/authmod http endpoint)
       If server doesn't have one, we using Steam authentification
-    */
-    api.req("GET", "/authmod", {}, (err, data) => {
-      if (data) {
-        if (data.body.ok) {
-          // TODO: if more than 1 auth mod, check name to change the form.
+      */
+      api.req("GET", "/api/authmod", {}, (err, data) => {
+        if (data) {
+          if (data.body.ok) {
+            // TODO: if more than 1 auth mod, check name to change the form.
+            $scope.showOtherForm = true;
+          } else if (data.res.statusCode === 404){
+            $scope.showOtherForm = false;
+          }
+        } else if (server.user.email !== "") {
           $scope.showOtherForm = true;
-        } else if (data.res.statusCode === 404){
-          $scope.showOtherForm = false;
         }
-      } else if (server.user.email !== "") {
-        $scope.showOtherForm = true;
-      }
+        Materialize.updateTextFields();
+        $scope.$apply();
+      });
+    } else {
+      $scope.showOtherForm = false;
       Materialize.updateTextFields();
-      $scope.$apply();
-    });
+    }
   }
 
   if ($routeParams.action === "edit") {

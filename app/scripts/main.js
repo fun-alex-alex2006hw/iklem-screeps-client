@@ -159,6 +159,12 @@ function mainController($scope, $location, serverListService) {
 
   $(document).ready(function () {
     TweenMax.to($("body"), .4, {opacity:1})
+    $("#game").click(() => {
+      console.log("game");
+      $scope.$apply(() => {
+        $location.path(`/game`);
+      })
+    })
   });
 }
 
