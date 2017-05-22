@@ -57,38 +57,75 @@ function serverList($scope, $location, serverListService) {
   $scope.connectToServer = (server, withSteam = false) => {
     $('.tooltipped').tooltip('remove');
 
-    if (!withSteam) {
-      let api = new ScreepsAPI({
-        email: server.user.email,
-        password: server.user.password,
-        host: server.ip,
-        port: server.port
-      }),
-      connexion = api.connect();
-      $("#modalServerConnecting").modal('open');
+    // if (!withSteam) {
+    //   let api = new ScreepsAPI({
+    //     email: server.user.email,
+    //     password: server.user.password,
+    //     host: server.ip,
+    //     port: server.port
+    //   }),
+    //   connexion = api.connect();
+    //   $("#modalServerConnecting").modal('open');
+    //
+    //   connexion
+    //     .then(() => api.me($scope.connexionValid))
+    //     .catch($scope.connexionError);
+    // } else if ($scope.steamRunning) {
+    //   $("#modalServerConnecting").modal('open');
+    //   greenworks.getAuthSessionTicket(
+    //     (ticket) => {
+    //       console.log(ticket);
+    //       let api = new ScreepsAPI({
+    //         ticket: ticket.ticket,
+    //         host: server.ip,
+    //         port: server.port
+    //       }),
+    //       connexion = api.connect();
+    //
+    //       connexion
+    //         .then(() => api.me($scope.connexionValid))
+    //         .catch($scope.connexionError);
+    //     },
+    //     (err) => console.log(err)
+    //   );
+    // }
 
-      connexion
-        .then(() => api.me($scope.connexionValid))
-        .catch($scope.connexionError);
-    } else if ($scope.steamRunning) {
-      $("#modalServerConnecting").modal('open');
-      greenworks.getAuthSessionTicket(
-        (ticket) => {
-          console.log(ticket);
-          let api = new ScreepsAPI({
-            ticket: ticket.ticket,
-            host: server.ip,
-            port: server.port
-          }),
-          connexion = api.connect();
+    $(".container").html("");
+    $(".container").append($("<div/>").attr("id", "app"));
 
-          connexion
-            .then(() => api.me($scope.connexionValid))
-            .catch($scope.connexionError);
-        },
-        (err) => console.log(err)
-      );
+    $scope.reloadScript = () => {
+      console.log("reload", $location.absUrl());
+      setTimeout($scope.checkPIXI, 5000);
+    };
+
+    $scope.checkPIXI = () => {
+      console.log("checkPIXI", $location.absUrl());
+      window.PIXI ? $scope.loadScript("client/client.js", "scriptClient") : $scope.reloadScript();
+    };
+
+    $scope.loadScript = (s, id) => {
+      console.log($location.absUrl(), s);
+      const script = $("<script/>");
+      script.attr("id", id);
+      script.attr("src", s);
+      console.log($(`#${id}`).length, script);
+      if (!$(`#${id}`).length) {
+        $(".container").append(script);
+      } else {
+        console.log("Element exist.");
+      }
+    };
+
+    console.log("check1",$location.absUrl());
+    $scope.loadScript("../node_modules/pixi.js/dist/pixi.js", "pixi");
+
+    if (window.PIXI) {
+      console.log($scope.game);
+      $scope.game = true;
+      console.log($scope.game);
     }
+    $scope.reloadScript();
+    console.log("check2", $location.absUrl());
 
     $('.tooltipped').tooltip({delay: 25});
   };
@@ -98,15 +135,18 @@ function serverList($scope, $location, serverListService) {
    * @param  {Object} data The return data from the connexion
    */
   $scope.connexionValid = (data) => {
-    // $location.path("/game")
-
-    console.log("Fetching data...");
-    console.log(data);
-    $scope.player = data;
     $("#modalServerConnecting").modal('close');
-    $("#modalServerConnected").modal('open');
+    setTimeout(function () {
+      $location.path("/game");
+      $scope.$apply();
+    }, 1000);
 
-    $scope.$apply();
+    // console.log("Fetching data...");
+    // console.log(data);
+    // $scope.player = data;
+    // $("#modalServerConnected").modal('open');
+    //
+    // $scope.$apply();
   };
 
   /**
@@ -136,35 +176,41 @@ function serverList($scope, $location, serverListService) {
     }
   }
 
-  $scope.server = serverListService.getServerWithID(0);
-  $scope.player = {}
+  if (!window.PIXI) {
+    $scope.server = serverListService.getServerWithID(0);
+    $scope.player = {}
 
-  if (!$scope.serverList) {
-    $scope.loadServerList();
+    if (!$scope.serverList) {
+      $scope.loadServerList();
+    }
+
+    // Loading modals windows
+    $(".modalServerInfo").modal({
+      dismissible: false,
+      startingTop: "39%",
+      endingTop: "40%"
+    });
+    $(".modalServerConnected").modal({
+      startingTop: "39%",
+      endingTop: "40%"
+    });
+    $(".modalServerConnecting").modal({
+      dismissible: false,
+      opacity: .9,
+      inDuration: 500,
+      startingTop: "39%",
+      endingTop: "40%"
+    });
+    $(".modalServerRemove").modal({
+      dismissible: false,
+      startingTop: "39%",
+      endingTop: "40%"
+    })
+    $('.tooltipped').tooltip({delay: 0});
+    $('.collapsible').collapsible();
+
+    console.log("loading ok!");
   }
-
-  // Loading modals windows
-  $(".modalServerInfo").modal({
-    dismissible: false,
-    startingTop: "39%",
-    endingTop: "40%"
-  });
-  $(".modalServerConnected").modal({
-    startingTop: "39%",
-    endingTop: "40%"
-  });
-  $(".modalServerConnecting").modal({
-    dismissible: false,
-    opacity: .9,
-    inDuration: 500,
-    startingTop: "39%",
-    endingTop: "40%"
-  });
-  $(".modalServerRemove").modal({
-    dismissible: false,
-    startingTop: "39%",
-    endingTop: "40%"
-  })
-  $('.tooltipped').tooltip({delay: 0});
-  $('.collapsible').collapsible();
+  console.log($location.absUrl());
+  // console.log("serverList", $scope.game, window.PIXI);
 }

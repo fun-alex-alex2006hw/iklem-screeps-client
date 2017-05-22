@@ -10,6 +10,7 @@ let checkSteam = 0;
     .controller("mainController", ["$scope", "$location", "serverListService", mainController])
     .controller("serverList", ["$scope", "$location", "serverListService", serverList])
     .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
+    .controller("game", ["$scope", "$location", "$routeParams", game])
     .service("serverListService", [serverListService])
     .animation('.container', ["$routeParams", "$location", fadeScale])
     .config(["$routeProvider", routing]);
@@ -17,6 +18,9 @@ let checkSteam = 0;
 
 function mainController($scope, $location, serverListService) {
   $scope.subtitles = require("./libs/subtitles.js");
+  if (!$scope.game && !window.PIXI) {
+    $scope.game = false;
+  }
 
   /**
    * Check if server is reachable
@@ -159,17 +163,15 @@ function mainController($scope, $location, serverListService) {
 
   $(document).ready(function () {
     TweenMax.to($("body"), .4, {opacity:1})
-    $("#game").click(() => {
-      console.log("game");
-      $scope.$apply(() => {
-        $location.path(`/game`);
-      })
-    })
+    console.log("READY");
   });
 }
 
 function routing($routeProvider) {
   $routeProvider
+  // The problem is the route will always redirect to this template.
+  // The idea is to determine with scope.game if we need to show the
+  // serverList or the game
     .when("/", {
       templateUrl: "views/serverList.html"
     })
@@ -178,9 +180,6 @@ function routing($routeProvider) {
     })
     .when("/add/:action/:serverID", {
       templateUrl: "views/add.html"
-    })
-    .when("/game", {
-      templateUrl: "views/game.html"
     })
     .otherwise("/");
 }
