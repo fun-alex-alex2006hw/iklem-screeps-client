@@ -1,9 +1,12 @@
 # iklem-screeps-client
 
-* Electron 1.4.5
-* Node 6.9
+## This repo is outdated. If you want to maintain/update it, feel free to do :)
 
----
-* Linux - develop branch
-* Windows - win64/32 branch
-* MacOS - maxOS64/32 branch
+### Libraries version
+* Electron        1.4.15
+* SteamWorks SDK  1.37
+* Greenworks      0.7.0
+* Node            6.9
+
+## Credits
+Creator : [iKlem](https://github.com/iKlem)

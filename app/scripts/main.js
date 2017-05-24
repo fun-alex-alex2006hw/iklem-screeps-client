@@ -18,9 +18,6 @@ let checkSteam = 0;
 
 function mainController($scope, $location, serverListService) {
   $scope.subtitles = require("./libs/subtitles.js");
-  if (!$scope.game && !window.PIXI) {
-    $scope.game = false;
-  }
 
   /**
    * Check if server is reachable
@@ -169,9 +166,6 @@ function mainController($scope, $location, serverListService) {
 
 function routing($routeProvider) {
   $routeProvider
-  // The problem is the route will always redirect to this template.
-  // The idea is to determine with scope.game if we need to show the
-  // serverList or the game
     .when("/", {
       templateUrl: "views/serverList.html"
     })
@@ -180,6 +174,9 @@ function routing($routeProvider) {
     })
     .when("/add/:action/:serverID", {
       templateUrl: "views/add.html"
+    })
+    .when("/game", {
+      templateUrl: "views/game.html"
     })
     .otherwise("/");
 }
