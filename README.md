@@ -1,12 +1,32 @@
 # iklem-screeps-client
 
-## This repo is outdated. If you want to maintain/update it, feel free to do :)
+###### Current version 0.1.0
+
+## Disclaimer
+There's no visual client for now. My goal is to add one with the help of the community.  
+My goal was also make a client to use with multiple server instead of having one to connect (like the steam one) and even the main one.  
+This client is usable only on Linux.
+
+## About
+This is a client for the game Screeps usable to connect to any private servers.
+
+## Installation & Use
+1. Clone this repo :  
+`git clone https://github.com/iKlem/iklem-screeps-client`
+
+2. Install the dependencies :  
+`npm install`
+
+3. Launch the client with:  
+`npm start`
 
 ### Libraries version
-* Electron        1.4.15
-* SteamWorks SDK  1.37
-* Greenworks      0.7.0
-* Node            6.9
+Name           | Version
+---            | ---
+Electron       | 1.4.15
+SteamWorks SDK | 1.37
+Greenworks     | 0.7.0
+Node           | 6.9
 
 ## Credits
 Creator : [iKlem](https://github.com/iKlem)
