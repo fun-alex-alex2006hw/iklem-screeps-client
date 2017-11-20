@@ -14,10 +14,14 @@ This is a client for the game Screeps usable to connect to any private servers.
 1. Clone this repo :  
 `git clone https://github.com/iKlem/iklem-screeps-client`
 
-2. Install the dependencies :  
+2. Switch on the wanted branch with `git checkout [BRANCH]`:
+  - "[master](https://github.com/iKlem/iklem-screeps-client)" for Linux
+  - "[windows](https://github.com/iKlem/iklem-screeps-client/tree/windows)" for Windows
+
+3. Install the dependencies :  
 `npm install`
 
-3. Launch the client with:  
+4. Launch the client with:  
 `npm start`
 
 ### Libraries version
