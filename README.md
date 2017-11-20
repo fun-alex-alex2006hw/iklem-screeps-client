@@ -27,10 +27,10 @@ This is a client for the game Screeps usable to connect to any private servers.
 ### Libraries version
 Name           | Version
 ---            | ---
-Electron       | 1.4.15
-SteamWorks SDK | 1.37
-Greenworks     | 0.7.0
-Node           | 6.9
+Electron       | 1.6.1
+SteamWorks SDK | 1.39
+Greenworks     | 0.9.0
+Node (max)     | 7.0
 
 ## Credits
 Creator : [iKlem](https://github.com/iKlem)
