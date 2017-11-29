@@ -23,7 +23,7 @@ This is a client for the game Screeps usable to connect to any private servers.
 3. Launch the install command for your OS
   - linux: `npm run install_linux`
   - windows: `npm run install_windows`
-  - You can push a Pull Request for the other OSes
+  - You can make a Pull Request for the other OSes
 
 4. Launch the client with:  
 `npm start`
