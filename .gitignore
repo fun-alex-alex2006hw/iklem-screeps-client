@@ -30,3 +30,6 @@ node_modules
 
 # Server list
 app/servers.json
+
+# Greenworks (with new system)
+app/greenworks/lib
