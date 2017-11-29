@@ -5,7 +5,7 @@
 ## Disclaimer
 There's no visual client for now. My goal is to add one with the help of the community.  
 My goal was also make a client to use with multiple server instead of having one to connect (like the steam one) and even the main one.  
-This client is usable only on Linux.
+This branch is the Linux version.
 
 ## About
 This is a client for the game Screeps usable to connect to any private servers.
