@@ -1,15 +1,28 @@
-const file = require("fs"),
-  remote = require("electron").remote.require('./main'),
-  greenworks = require('./greenworks/greenworks');
+const file = require("fs");
+const request = require("request");
+const remote = require("electron").remote.require('./main');
+const greenworks = require('./greenworks/greenworks');
 
 let checkSteam = 0;
 
 (function() {
   angular
-    .module("screepsClient", [require("angular-animate"), require("angular-route")])
-    .controller("mainController", ["$scope", "$location", "serverListService", mainController])
-    .controller("serverList", ["$scope", "$location", "serverListService", serverList])
-    .controller("addServer", ["$scope", "$location", "$routeParams", "serverListService", addServer])
+    .module(
+      "screepsClient",
+      [require("angular-animate"), require("angular-route")]
+    )
+    .controller(
+      "mainController",
+      ["$scope", "$location", "serverListService", mainController]
+    )
+    .controller(
+      "serverList",
+      ["$scope", "$location", "serverListService", serverList]
+    )
+    .controller(
+      "addServer",
+      ["$scope", "$location", "$routeParams", "serverListService", addServer]
+    )
     .controller("game", ["$scope", "$location", "$routeParams", game])
     .service("serverListService", [serverListService])
     .animation('.container', ["$routeParams", "$location", fadeScale])
@@ -24,9 +37,10 @@ function mainController($scope, $location, serverListService) {
    * @param  {Server} server the server to check
    */
   $scope.checkServerStatus = (server) => {
+    server.error = undefined;
     server.status = undefined;
     server.version = undefined;
-    server.error = undefined;
+
     request({
       url: `http://${server.ip}:${server.port}`,
       method: "GET",
