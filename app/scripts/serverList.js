@@ -1,3 +1,5 @@
+const { ScreepsAPI } = require("screeps-api");
+
 function serverList($scope, $location, serverListService) {
   /**
    * Open the selected server informations
@@ -58,33 +60,38 @@ function serverList($scope, $location, serverListService) {
     $('.tooltipped').tooltip('remove');
 
     if (!withSteam) {
-      let api = new ScreepsAPI({
-        email: server.user.email,
-        password: server.user.password,
-        host: server.ip,
-        port: server.port
-      }),
-      connexion = api.connect();
-      $("#modalServerConnecting").modal('open');
-
-      connexion
-        .then(() => api.me($scope.connexionValid))
-        .catch($scope.connexionError);
+      // let api = new ScreepsAPI({
+      //   email: server.user.email,
+      //   password: server.user.password,
+      //   host: server.ip,
+      //   port: server.port
+      // }),
+      // connexion = api.connect();
+      // $("#modalServerConnecting").modal('open');
+      //
+      // connexion
+      //   .then(() => api.me($scope.connexionValid))
+      //   .catch($scope.connexionError);
     } else if ($scope.steamRunning) {
       $("#modalServerConnecting").modal('open');
       greenworks.getAuthSessionTicket(
-        (ticket) => {
-          console.log(ticket);
-          let api = new ScreepsAPI({
-            ticket: ticket.ticket,
-            host: server.ip,
+        (authTicket) => {
+          let ticketToUse = authTicket.ticket.toString('hex')
+          console.log(authTicket, ticketToUse);
+          const api = new ScreepsAPI({
+            protocol: "http",
+            hostname: server.ip,
             port: server.port
-          }),
-          connexion = api.connect();
+          })
 
-          connexion
-            .then(() => api.me($scope.connexionValid))
+          api.raw.auth.steamTicket(ticketToUse)
+            .then($scope.connexionValid)
             .catch($scope.connexionError);
+          // connexion = api.connect();
+          //
+          // connexion
+          //   .then(() => api.me($scope.connexionValid))
+          //   .catch($scope.connexionError);
         },
         (err) => console.log(err)
       );
